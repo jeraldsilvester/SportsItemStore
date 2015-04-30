@@ -1,0 +1,26 @@
+﻿@model SportsItemsStore.Domain.Entities.Product
+
+<div class="item">
+    <h3>@Model.Name</h3>
+
+    @Model.Description
+
+   @* @using (Html.BeginForm("AddToCart", "Cart"))
+    {
+        @Html.HiddenFor(x => x.ProductID)
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        <input type="submit" value="+ Add To Cart" />
+    }
+    <h4>@Model.Price.ToString("c")</h4>*@
+
+ @*   After adding View Details*@
+
+    @using (Html.BeginForm("ViewDetails", "Product"))
+    {
+        @Html.HiddenFor(x => x.ProductID)
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        <input type="submit" value="View Details" />
+    }
+    <h4>@Model.Price.ToString("c")</h4>
+
+</div>

@@ -1,0 +1,392 @@
+﻿body {
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+/*New additions*/
+BODY {
+    font-family: Cambria, Georgia, "Times New Roman";
+    margin: 0;
+}
+
+DIV#header DIV.title, DIV.item H3, DIV.item H4, DIV.pager A {
+    font: bold 1em "Arial Narrow", "Franklin Gothic Medium", Arial;
+}
+
+DIV#header {
+    background-color: #444;
+    border-bottom: 2px solid #111;
+    color: White;
+}
+
+    DIV#header DIV.title {
+        font-size: 2em;
+        padding: .6em;
+    }
+
+DIV#content {
+    border-left: 2px solid gray;
+    margin-left: 14em;
+    padding: 1em;
+    /*position:static;*/
+}
+
+DIV#categories {
+    float: left;
+    width: 12em;
+    padding: .3em;
+    height: 500px;
+}
+
+DIV.searchPnl {
+    margin-bottom: .7em;
+}
+
+DIV.item {
+    border-top: 1px dotted gray;
+    padding-top: .7em;
+    margin-bottom: .7em;
+}
+
+DIV.item:first-child {
+    /*border-top: none;*/
+    padding-top: 0;
+}
+
+DIV.item H3 {
+    font-size: 1.3em;
+    margin: 0 0 .25em 0;
+}
+
+DIV.item H4 {
+    font-size: 1.1em;
+    margin: .4em 0 0 0;
+}
+
+DIV.pager {
+    text-align: right;
+    border-top: 2px solid silver;
+    padding: .5em 0 0 0;
+    margin-top: 1em;
+}
+
+DIV.pager A {
+    font-size: 1.1em;
+    color: #666;
+    text-decoration: none;
+    padding: 0 .4em 0 .4em;
+}
+
+    DIV.pager A:hover {
+        background-color: Silver;
+    }
+
+    DIV.pager A.selected {
+        background-color: #353535;
+        color: White;
+    }
+
+
+/*Categories CSS*/
+
+DIV#categories A {
+    font: bold 1.1em "Arial Narrow","Franklin Gothic Medium",Arial;
+    display: block;
+    text-decoration: none;
+    padding: .6em;
+    color: Black;
+    border-bottom: 1px solid silver;
+}
+
+DIV#categories A.selected {
+    background-color: #666;
+    color: White;
+}
+
+DIV#categories A:hover {
+    background-color: #CCC;
+}
+
+DIV#categories A.selected:hover {
+    background-color: #666;
+}
+
+/*Add To Cart Button*/
+FORM {
+    margin: 0;
+    padding: 0;
+}
+
+DIV.item FORM {
+    float:right;
+}
+
+DIV.item FORM select {
+    float: left;
+}
+
+DIV.item INPUT {
+    color: White;
+    background-color: #333;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+/*Display CSS for Cart*/
+H2 {
+    margin-top: 0.3em;
+}
+
+
+TFOOT TD {
+    border-top: 1px dotted gray;
+    font-weight: bold;
+}
+
+.actionButtons A, INPUT.actionButtons {
+    font: .8em Arial;
+    color: White;
+    margin: .5em;
+    text-decoration: none;
+    padding: .15em 1.5em .2em 1.5em;
+    background-color: #353535;
+    border: 1px solid black;
+}
+
+.searchButton {
+    font: .8em Arial;
+    color: White;
+    margin-left: .5em;
+    text-decoration: none;
+    padding: .15em 1.5em .2em 1.5em;
+    background-color: #353535;
+    border: 1px solid black;
+}
+
+/*Summary CSS*/
+DIV#cart {
+    float: right;
+    margin: .8em;
+    color: White;
+    background-color: #555;
+    padding: .5em .2em .5em 1em;
+}
+
+    DIV#cart A {
+        text-decoration: none;
+        padding: .4em 0.4em .4em 0.4em;
+        line-height: 2.1em;
+        margin-left: .2em;
+        background-color: #333;
+        color: White;
+        border: 1px solid black;
+    }
+
+    DIV#cart .caption {
+        margin-left:0.1em;
+        margin-right:0em;
+        padding-left:0.1em;
+        padding-right:0.1em;
+    }
+
+DIV.chkOutCt INPUT {
+    margin-left: 1.81em;
+}
+
+DIV.chkOutSt INPUT {
+    margin-left: 1.3em;
+}
+
+DIV.chkOutZp INPUT {
+    margin-left: 2.1em;
+}
+
+DIV.chkOutNm INPUT {
+    margin-left: 1em;
+}
+
+
+DIV.chkOutLn1 INPUT, DIV.chkOutLn2 INPUT, DIV.chkOutLn3 INPUT {
+    margin-left: 0.81em;
+}
+
+DIV.completed p {
+    margin: 0.5em;
+}
+
+/*DIV.footer {
+    font: bold 1em "Arial Narrow", "Franklin Gothic Medium", Arial;
+    width: 100%;
+    background-color: #444;
+    border-bottom: 2px solid #111;
+    color: White;
+    position: fixed;
+    bottom: 0;
+    text-align:center;
+    left:0px;
+}*/
+
+
+/*For Detail Page*/
+
+
+
+DIV.itemDetail {
+    /*width: 70%;*/
+    border-top: 1px dotted gray;
+    padding-top: .7em;
+    margin-bottom: .7em;
+}
+
+DIV.itemDetail:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+DIV.itemDetail .left {
+    float: left;
+    width: 250px;
+    height: 400px;
+
+    /*background-image: url('../Content/Images/Kayak.jpg');
+    background-repeat:no-repeat;
+    position:relative;*/
+}
+
+/*DIV.itemDetail .left > img {
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:50px;
+    height:50px;
+}*/
+DIV.itemDetail  .right {
+    float:left;
+    width:700px;
+    height: 400px;
+    padding-top:2em;
+}
+
+DIV.itemDetail H3 {
+    font-size: 1.3em;
+    margin: 0 0 .25em 0;
+}
+
+DIV.itemDetail H4 {
+    font-size: 1.1em;
+    margin: .4em 0 0 0;
+}
+
+DIV.itemDetail FORM {
+    float:right;
+}
+
+DIV.itemDetail .right select {
+    margin-right:0.5em;
+}
+
+/*DIV.itemDetail .right FORM .ddlSize {
+    margin-right:1em;
+}*/
+
+DIV.itemDetail .right INPUT {
+    margin-left: 5em;
+    color: White;
+    background-color: #333;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+DIV#cart .caption {
+    margin-left: 1em;
+}
+
+DIV.searchFilters {
+    margin-left:0;
+    padding-left:0;
+}
+
+    DIV.searchFilters .editor-label .size {
+        margin-left: 0.6em;
+    }
+
+.cartQty,.cartPrName,.cartSize,.cartColor,.cartMnfc,.cartPrice,.cartQtyTotal {
+    font-weight:bold;
+}
+
+DIV#price_slider {
+    margin:0em;
+    padding:0em;
+}
+
+DIV.searchFilters p {
+    margin-bottom:0.5em;
+}
+
+.columnHeader {
+    text-decoration: underline;
+    font-size: medium;
+}
+
+.sumPerOrder TD {
+     border-top: 1px dotted gray;
+    font-weight: bold;
+}

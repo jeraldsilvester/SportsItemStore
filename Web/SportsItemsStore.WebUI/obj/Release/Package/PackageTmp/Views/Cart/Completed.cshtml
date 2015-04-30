@@ -1,0 +1,78 @@
+﻿@model SportsItemsStore.WebUI.Models.ShippingViewModel
+
+@{
+    ViewBag.Title = "SportsItemsStore: Order Submitted";
+}
+
+
+<h2>Thanks!</h2>
+<br />
+Thanks for placing your order. We'll ship your goods as soon as possible.
+
+<br />
+<br />
+
+<b>Shipping To :</b>
+
+<div class="completed">
+    <p> @Model.shipDtls.Name,</p>
+    <p> @Model.shipDtls.Line1,</p>
+     @if (Model.shipDtls.Line2 != null)
+     {
+         <p> @Model.shipDtls.Line2,</p>
+     }
+      @if (Model.shipDtls.Line3 != null)
+     {
+         <p> @Model.shipDtls.Line3,</p>
+     }
+    <p> @Model.shipDtls.City,</p>
+    <p> @Model.shipDtls.State,</p>
+    <p> @Model.shipDtls.Zip,</p>
+    <p> @Model.shipDtls.Country</p>
+  
+</div>
+
+<br />
+
+<b>Details of your order :</b>
+<br />
+<br />
+<table width="50%" align="left">
+    <thead>
+        <tr>
+            <th align="left">Quantity</th>
+            <th align="left">Item</th>
+            <th align="left">Price</th>
+            <th align="left">Subtotal</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var line in Model.crt.Lines) {
+            <tr>
+                <td align="left">@line.Quantity</td>
+                <td align="left">@line.Product.Name</td>
+                <td align="left">@line.Product.Price.ToString("c")</td>
+                <td align="left">@((line.Quantity* line.Product.Price).ToString("c"))</td>           
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+       <tr>
+            <td colspan="3" align="right">Total:</td>
+            <td align="left"> @Model.crt.ComputeTotalValue().ToString("c") </td>           
+      </tr>
+    </tfoot>
+</table>
+
+@{Html.RenderAction("ClearCart", "Cart");}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // $("#cart").hide();
+        $("#chkLnk").hide();
+        $("DIV.searchFilters").hide();
+    });
+</script>

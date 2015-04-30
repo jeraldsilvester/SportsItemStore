@@ -1,0 +1,27 @@
+﻿@model SportsItemsStore.WebUI.Models.ProductsListViewModel
+
+
+@foreach (var p in Model.Products) {
+    Html.RenderPartial("ProductSummary", p);
+}
+
+<div class="pager">
+    @if(Model.PagingInfo.SizeId>0)  { 
+        
+       @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory, sizeId=Model.PagingInfo.SizeId}))
+    }
+
+    else if(Model.PagingInfo.ColorId >0)
+    {
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory,colorId=Model.PagingInfo.ColorId}))
+    }
+    else if(Model.PagingInfo.StartPrice>0 || Model.PagingInfo.EndPrice>0)
+    {
+         @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new {page = x , category=Model.CurrentCategory,start=Model.PagingInfo.StartPrice,end=Model.PagingInfo.EndPrice}))
+    }
+    else
+    {
+         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory}))
+    }
+
+</div>

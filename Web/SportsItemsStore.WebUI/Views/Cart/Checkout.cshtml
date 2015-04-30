@@ -1,0 +1,56 @@
+﻿@model SportsItemsStore.Domain.Entities.ShippingDetails
+@using SportsItemsStore.Domain.Entities
+
+@{
+    ViewBag.Title = "SportStore: Checkout";
+ }
+
+@{
+    int userId = 0;
+    if (Session["User"] != null)
+    {
+        User user = (User)Session["User"];
+        userId = user.ID;
+    }
+}
+
+<h2>Check out now</h2>
+Please enter your details, and we'll ship your goods right away!
+
+@using (Html.BeginForm()) {
+    
+    @Html.ValidationSummary()
+
+    <h3>Ship to</h3>
+    <div class="chkOutNm">Name: @Html.EditorFor(x => x.Name)</div>
+    
+    <h3>Address</h3>
+    <div class="chkOutLn1">Line 1: @Html.EditorFor(x => x.Line1)</div>
+    <div class="chkOutLn2">Line 2: @Html.EditorFor(x => x.Line2)</div>
+    <div class="chkOutLn3">Line 3: @Html.EditorFor(x => x.Line3)</div>
+    
+    <div class="chkOutCt">City:  @Html.EditorFor(x => x.City)</div>
+    <div class="chkOutSt">State:  @Html.EditorFor(x => x.State)</div>
+    <div class="chkOutZp">Zip: @Html.EditorFor(x => x.Zip)</div>
+    <div class="chkOutCn">Country: @Html.EditorFor(x => x.Country)</div>
+    
+     @* <h3>Options</h3>      
+    <label>
+        @Html.EditorFor(x => x.GiftWrap)
+        Gift wrap these items
+    </label>*@
+    
+    @Html.Hidden("UserId",userId)
+    
+    <p align="left">
+        <input class="actionButtons" type="submit" value="Complete order" />
+    </p>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // $("#chkLnk").hide();
+        $("DIV.searchFilters").hide();
+    });
+</script>
+

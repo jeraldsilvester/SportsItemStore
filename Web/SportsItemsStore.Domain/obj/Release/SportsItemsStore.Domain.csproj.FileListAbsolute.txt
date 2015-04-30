@@ -1,0 +1,9 @@
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\SportsItemsStore.Domain.dll.config
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\SportsItemsStore.Domain.dll
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\SportsItemsStore.Domain.pdb
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.dll
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.SqlServer.dll
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.xml
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.SqlServer.xml
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.dll
+D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.pdb

@@ -1,0 +1,313 @@
+﻿@model IEnumerable<string>
+
+@Html.ActionLink("Home", "List", "Product")
+
+@foreach (var link in Model) {
+        @Html.RouteLink(link, new { controller = "Product", action = "List", category = link, page = 1 },
+        new { @class= link== ViewBag.SelectedCategory ? "selected" : null}
+        )    
+}
+<br />
+<br />
+
+@{
+    string size = null;
+    string color = null;
+    string sessionSearhTerm = null;
+    if (Session["size"] != null)
+    {
+        size = (String)Session["Size"];
+        Session["Size"] = null;
+    }
+
+    if (Session["Color"] != null)
+    {
+        color = (String)Session["Color"];
+        Session["Color"] = null;
+    }
+
+    if (Session["SearchTerm"] != null)
+    {
+        sessionSearhTerm = (string)Session["SearchTerm"];
+    } 
+    
+}
+
+
+
+
+<div class="searchFilters">
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("List","Product"))
+{
+    <div>
+        <fieldset>
+            <legend>Filters</legend>
+
+            <div class="editor-label">
+                Size : <span class="size"> @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>,size) </span>
+            </div>
+
+            <div class="editor-label">
+                Color :<span class="color"> @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>,color)  </span>
+            </div>     
+            @*<p>
+                <input type="submit" value="Search" class="actionButtons" />
+            </p>*@
+            <p>
+              <label for="amount">Price Range:</label>
+                  <input type="text" id="amount" style="border:0px; color:#f6931f; font-weight:bold; width:120px;background-color:beige; " value="$0 - $20000">
+            </p>
+              <div id="price_slider" class="editor-label Test">
+              </div>
+        </fieldset>
+    </div>
+}
+
+  @*  @{Html.RenderAction("ClearSessionValues", "Nav");}*@
+</div>
+
+
+
+<script type="text/javascript">
+    var min = 0, max = 20000;
+    $(document).ready(function () {
+        
+        UsePagingWithAjaxCall();
+        GetSlider(min, max);
+
+        var sizeId = '@Request.RequestContext.HttpContext.Session["SizeId"]';
+        var colorId = '@Request.RequestContext.HttpContext.Session["ColorId"]';
+ 
+        if (sizeId >'0') {
+            $("#sizeId").val(sizeId);
+        }        
+        if (colorId > '0') {
+            $("#colorId").val(colorId);
+        }
+   
+        var start = '@Request.RequestContext.HttpContext.Session["Start"]';
+        var end = '@Request.RequestContext.HttpContext.Session["End"]';
+
+
+        var listItem;
+        $('#sizeId').change(function () {
+         
+           // if ($('#amount').val() != "" || $("#sizeId").val() != "0" || $("#colorId").val() != 0)
+            //$('#categories a').removeClass('selected');
+            //listItem = $("#sizeId").val();
+            ////alert(listItem);
+            //if (listItem != 0) {               
+            //    GetViewForASize();
+            //}
+            //else {
+            //   GetAllView();
+                //}
+         
+            $('#categories a').removeClass('selected');
+            listItem = $("#sizeId").val();
+            //alert(listItem);
+            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0) {
+                GetAllView();
+            }
+            else {                
+                GetViewForASize();
+            }
+
+
+        });
+
+        $('#colorId').change(function () {
+
+           // GetSlider(min, max);
+
+            //$('#amount').val('');
+            //$('#categories a').removeClass('selected');
+            //listItem = $("#colorId").val();
+            //if (listItem != 0) {
+            //    GetViewForAColor();
+            //}
+            //else {
+            //    GetAllView();
+            //}
+
+            $('#categories a').removeClass('selected');
+            listItem = $("#colorId").val();
+            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0) {
+                GetAllView();
+               
+            }
+            else {
+                GetViewForAColor();
+            }
+        });
+              
+    });
+
+    function GetViewForASize() {
+        //alert('colorId: ' + $('#colorId').val());
+
+        var st = 0, en = 0;
+        if ($('#amount').val() != "") {
+            var values = $('#price_slider').slider("option", "values");
+            st = values[0];
+            en = values[1];
+        }
+        $.ajax({
+            url: '@Url.Action("SearchWithFilters","Product")',
+            data: { sizeId: $('#sizeId').val(), searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(),start: st , end: en },
+             type: "GET",
+             success: function (data) {
+                 $('DIV.productList').empty().append(data)
+             },
+             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                 alert(textStatus);
+             }
+         });
+    }
+
+    function GetViewForAColor() {
+        //alert('SizeId: ' + $('#sizeId').val());
+        var st = 0, en = 0;
+        if ($('#amount').val() != "") {
+            var values = $('#price_slider').slider("option", "values");
+            st = values[0];
+            en = values[1];
+        }
+       
+
+        $.ajax({
+            url: '@Url.Action("SearchWithFilters","Product")',
+            data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm', sizeId: $('#sizeId').val(), start: st, end: en},
+            type: "GET",
+            success: function (data) {
+                $('DIV.productList').empty().append(data)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
+    }
+
+    function GetAllView() {
+        $.ajax({
+            url: '@Url.Action("GetallView","Product")',
+            // data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm' },
+            //data: { searchTerm: '@sessionSearhTerm' },
+            type: "GET",
+            success: function (data) {
+                $('DIV.productList').empty().append(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
+    }
+
+    function GetSlider(min,max) {
+        $("#price_slider").slider({
+            min: min,
+            max: max,
+            step: 5,
+            values: [min, max],
+            slide: function( event, ui ) {
+                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                //$("#sizeId").val("0");
+                //$("#colorId").val("0");
+                $('#categories a').removeClass('selected');
+                if ((ui.values[0] + 5) >= ui.values[1]) {
+                    return false;
+                }
+            },
+            stop: function (event, ui) {
+                var start = parseInt(ui.values[0]);
+                var end = parseInt(ui.values[1]);
+                // $("#price_slider_value").html("Rs." + ui.values[0] + " - Rs." + ui.values[1]);
+                $("#amount").val("$" + $("#price_slider").slider("values", 0) + " - $" + $("#price_slider").slider("values", 1));
+            
+                //When slider is stopped then get records for range.
+                GetRecords(start, end);
+            }//,
+            //slide: function (event, ui) {
+            //    $("#sizeId").val("0");
+            //    $("#colorId").val("0");
+            //    $('#categories a').removeClass('selected');
+
+            //    if ((ui.values[0] + 5) >= ui.values[1]) {
+            //        return false;
+            //    }
+            //}
+        });
+    }
+
+    function GetRecords(st, en) {
+        //$(".modal").show();
+        //alert(st);
+        //alert(en);
+        //alert('SizeId: ' + $('#sizeId').val());
+        //alert('colorId: ' + $('#colorId').val());
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetallByPriceRange","Product")',
+            data: { start: st, end: en, searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(),sizeId: $('#sizeId').val() },
+            success: function (data) {
+                //GetSlider();
+                $('DIV.productList').empty().append(data)
+               // $(".modal").hide();
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function UsePagingWithAjaxCall() {
+             
+       
+        $('DIV.pager a').live('click' , function () {
+            //alert('bingo');
+
+
+            //if ($('#amount').val() != "") {
+            //    alert('cingo');
+            //}
+            //if ($('#amount').val() != "") {
+
+                //$("#sizeId").val("0");
+                //$("#colorId").val("0");
+            if ($('#amount').val() != "" || $("#sizeId").val() != "0" || $("#colorId").val() != 0)
+                {
+                var urll = $(this).prop('href');
+                //alert(urll);
+                $.ajax({
+                    type: "GET",
+                    url: urll,
+                    // data: { start: st, end: en },
+                    success: function (data) {
+                        //GetSlider();
+                        $('DIV.productList').empty().append(data)
+                        // $(".modal").hide();
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+                return false;
+            }
+
+          
+            });          
+    }
+
+   
+    
+</script>

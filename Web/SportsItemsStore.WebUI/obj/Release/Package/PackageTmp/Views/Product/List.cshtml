@@ -1,0 +1,79 @@
+﻿@model SportsItemsStore.WebUI.Models.ProductsListViewModel
+
+@{
+   ViewBag.Title = "Products";
+}
+
+<div class="searchPnl">
+
+@using (@Html.BeginForm("List","Product" ))
+{
+    <b>Product Name :</b>
+    @Html.TextBox("searchTerm",null, new{id="txtSearch"})
+    <input type="submit" value="Search" class="searchButton"/>
+}
+</div>
+
+<div class="productList">
+
+@foreach (var p in Model.Products) {
+    Html.RenderPartial("ProductSummary", p);
+}
+
+<div class="pager">
+    @*@Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory, sizeId=Model.PagingInfo.SizeId}))*@
+   @* @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory}))*@
+
+    @if(Model.PagingInfo.SizeId>0)  { 
+        
+       @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory, sizeId=Model.PagingInfo.SizeId}))
+    }
+
+    else if(Model.PagingInfo.ColorId >0)
+    {
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory,colorId=Model.PagingInfo.ColorId}))
+    }
+    else if(Model.PagingInfo.StartPrice>0 || Model.PagingInfo.EndPrice>0)
+    {
+         @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new {page = x , category=Model.CurrentCategory,start=Model.PagingInfo.StartPrice,end=Model.PagingInfo.EndPrice}))
+    }
+    else
+    {
+         @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory}))
+    }
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+     
+        $("#txtSearch").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetProducts")',
+                    data: { term: request.term },
+                    dataType: "json",
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item,
+                                value: item
+                            }
+                        }))
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+            minLength: 1
+        });
+    });
+</script>
+
+

@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "RegistrationCompleted";
+}
+
+
+<h1 class="actionFinalized">Registration completed successfully .</h1>
+<br />
+<br />
+Please @Html.ActionLink("Login", "Login", "Account", new { returnUrl = ViewBag.returnUrl }, new { }) now
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("DIV.searchFilters").hide();
+    });
+</script>

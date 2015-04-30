@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.autocomplete.css" type="text/css" rel="stylesheet" />
+
+     @*@Styles.Render("~/Content/themes/base/css", "~/Content/css")    *@
+     @Styles.Render("~/Content/css")
+     @Styles.Render("~/Content/themes/base/css")  
+     @Scripts.Render("~/bundles/jquery")
+     @Scripts.Render("~/bundles/jqueryui")
+     @Scripts.Render("~/bundles/jqueryval")
+
+
+  @*   @Scripts.Render("~/bundles/modernizr")*@
+
+</head>
+<body>
+    
+@*     <header class="navbar navbar-inner navbar-fixed-top" data-ng-controller="NavbarController as vm">
+        <nav class="container">
+            <div class="navbar-header">
+                <img src="Content/images/logo1.jpg" alt="logo">     <span class="appTitle">SPORTSITEMS STORE</span>
+            </div>
+            <div class="nav-container" data-collapse="isCollapsed">
+                @{Html.RenderAction("Summary", "Cart");}
+              
+            </div>
+        </nav>
+       </header> *@
+        <div id="header">
+           @{Html.RenderAction("Summary", "Cart");}
+           <div class="title"><img src="~/Content/images/logo1.jpg" alt="logo">&nbsp;&nbsp;&nbsp;&nbsp; <span class="appTitle">SPORTSITEMS STORE</span></div>
+        </div>
+
+   @* <header class="navbar navbar-inner navbar-fixed-top">
+         <nav class="container">
+            <div class="navbar-header">
+               <div class="title"><img src="~/Content/images/logo1.jpg" alt="logo">&nbsp;&nbsp;&nbsp;&nbsp; <span class="appTitle">SPORTSITEMS STORE</span></div>
+            </div>
+             <div class="nav-container" data-collapse="isCollapsed">
+                @{Html.RenderAction("Summary", "Cart");}
+              
+            </div>
+         </nav>
+    </header>*@
+      
+<div class="slide-animation-container">
+    <div id="categories">
+        @{Html.RenderAction("Menu", "Nav");}
+    </div>
+    <div id="content">
+        @RenderBody()
+    </div>
+
+</div>
+
+
+ 
+    <div id="footer" >
+        <div class="navbar navbar-fixed-bottom">
+            <div class="navbar-inner footer">
+                <div class="container">
+                    <footer>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @@Copyright : Valtech_ ,2015
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

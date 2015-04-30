@@ -1,0 +1,36 @@
+﻿@model SportsItemsStore.WebUI.Models.DetailsViewModel
+
+
+<div class="itemDetail">
+
+    <div class="left">
+    <h3>@Model.product.Name</h3>
+
+    @Model.product.Description
+
+    <h4>@Model.product.Price.ToString("c")</h4>
+
+   </div>
+    <div class="right">
+    @using (Html.BeginForm("AddToCart", "Cart"))
+    {
+        @Html.Hidden("productId",@Model.product.ProductID)
+        @Html.Hidden("returnUrl", @Model.ReturnUrl)
+      
+       
+            @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, "Select Size")  
+            @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, "Select Color") 
+            @Html.DropDownList("mnfcId", ViewData["Manufacterers"] as IEnumerable<SelectListItem>, "Select Manufacterer")         
+
+           <input type="submit" value="+ Add To Cart" />
+
+    }
+    
+   </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+         $("DIV.searchFilters").hide();
+    });
+</script>

@@ -1,0 +1,35 @@
+﻿@model SportsItemsStore.Domain.Entities.Cart
+@using SportsItemsStore.Domain.Entities
+
+@{
+    string username = null;
+    if (Session["User"] != null)
+    {
+        User user = (User)Session["User"];
+        username = user.Username;
+    }
+}
+<div  id="cart">
+     <span class="caption">
+                @if (username != null)
+                {
+                    <text>Welcome <strong>@username</strong> ! @Html.ActionLink("LogOff", "Logoff", "Account")</text>
+                }
+                else
+                {                    
+                     @Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new { }) 
+                }
+    </span>
+     <span class="caption">
+         @if (ViewBag.UserId > 0)
+         {
+              @Html.ActionLink("My Orders", "MyOrder", "Cart", new { returnUrl = Request.Url.PathAndQuery ,userId=ViewBag.UserId}, new { }) 
+         }
+     </span>
+    <span class="caption">
+        <b>Your cart:</b>
+        @Model.Lines.Sum(x => x.Quantity) item(s), @Model.ComputeTotalValue().ToString("c")       
+    </span>
+    @Html.ActionLink("Checkout", "Index", "Cart", new { returnUrl = @Url.Action("List","Product")}, new { id = "chkLnk" })
+  
+</div>
