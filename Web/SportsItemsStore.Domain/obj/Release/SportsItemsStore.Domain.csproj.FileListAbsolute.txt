@@ -7,3 +7,13 @@ D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\Enti
 D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.SqlServer.xml
 D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.dll
 D:\SportsStore_Valtech\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.pdb
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\SportsItemsStore.Domain.dll.config
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\SportsItemsStore.Domain.dll
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\SportsItemsStore.Domain.pdb
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.dll
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.SqlServer.dll
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.xml
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Release\EntityFramework.SqlServer.xml
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.csprojResolveAssemblyReference.cache
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.dll
+D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\obj\Release\SportsItemsStore.Domain.pdb

@@ -83,7 +83,7 @@ DIV#header {
     }
 
 DIV#content {
-    border-left: 2px solid gray;
+    /*border-left: 2px solid gray;*/
     margin-left: 14em;
     padding: 1em;
     /*position:static;*/
@@ -98,6 +98,7 @@ DIV#categories {
 
 DIV.searchPnl {
     margin-bottom: .7em;
+
 }
 
 DIV.item {
@@ -185,8 +186,8 @@ DIV.item FORM select {
 
 DIV.item INPUT {
     color: White;
-    background-color: #333;
-    border: 1px solid black;
+    /*background-color: #333;*/
+    /*border: 1px solid black;*/
     cursor: pointer;
 }
 
@@ -226,11 +227,11 @@ DIV#cart {
     float: right;
     margin: .8em;
     color: White;
-    background-color: #555;
+    background-color: #2591D4;
     padding: .5em .2em .5em 1em;
 }
 
-    DIV#cart A {
+    /*DIV#cart A {
         text-decoration: none;
         padding: .4em 0.4em .4em 0.4em;
         line-height: 2.1em;
@@ -238,14 +239,14 @@ DIV#cart {
         background-color: #333;
         color: White;
         border: 1px solid black;
-    }
+    }*/
 
-    DIV#cart .caption {
+    /*DIV#cart .caption {
         margin-left:0.1em;
         margin-right:0em;
         padding-left:0.1em;
         padding-right:0.1em;
-    }
+    }*/
 
 DIV.chkOutCt INPUT {
     margin-left: 1.81em;
@@ -390,3 +391,8 @@ DIV.searchFilters p {
      border-top: 1px dotted gray;
     font-weight: bold;
 }
+/*added by kishore*/
+
+ input {
+        margin-bottom: 7px !important;
+    }

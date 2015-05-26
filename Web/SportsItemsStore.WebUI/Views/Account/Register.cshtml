@@ -3,57 +3,76 @@
 @{
     ViewBag.Title = "Register";
 }
-
-<h2>Register</h2>
-
 @Html.ValidationSummary()
 
-@using (Html.BeginForm())
+<div class="view">
+ <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-lock" ></span> Register</h3>
+        </header>
+        <p>
+           <h4>Account Information</h4>
+        </p>
+        <hr />
+@using (Html.BeginForm("registerForm"))
 {   
-     <div>
-        <fieldset>
-            <legend>Account Information</legend>
+     <div class="login">
+       
+             <div class="form-group">
+                <div class="col-md-2">
+                    Username
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.Username)
+                </div>
+             </div>
 
-            <div class="editor-label">
-                Username
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Username)
-                @Html.ValidationMessageFor(m => m.Username)
-            </div>
-            <div class="editor-label">
-                Password
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </div>
+             <div class="form-group">
+                <div class="col-md-2">
+                     Password
+                </div>
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @minlength = "6" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+             </div>
+           
+             <div class="form-group">
+                <div class="col-md-2">
+                    Confirm Password
+                </div>
+                <div class="col-md-10">
+                     @Html.TextBoxFor(m => m.ComfirmPassword, new { @class = "form-control", @minlength = "6" })
+                     @Html.ValidationMessageFor(m => m.ComfirmPassword)
+                </div>
+             </div>
 
-             <div class="editor-label">
-                Confirm Password
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(m => m.ComfirmPassword)
-                @Html.ValidationMessageFor(m => m.ComfirmPassword)
-            </div>
+             <div class="form-group">
+                <div class="col-md-2">
+                     Email
+                </div>
+                <div class="col-md-10">
+                      @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                      @Html.ValidationMessageFor(m => m.Email)
+                </div>
+             </div>
 
-             <div class="editor-label">
-                Email
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Email)
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>
-
-            <p>
-                <input type="submit" value="Register" class="actionButtons" />
-            </p>
-        </fieldset>
+               <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">
+                            Register
+                        </button>
+                    </div>
+                </div>
+   
+        
     </div>
     
     
 }
-
+</div>
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
         $("DIV.searchFilters").hide();

@@ -4,7 +4,57 @@
     ViewBag.Title = "Login";
 }
 
-<h2>Login</h2>
+<div class="view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-lock" ></span> Login</h3>
+        </header>
+        <p>
+           Please enter your username and password or you can  @Html.ActionLink("Register", "Register", "Account", new {@returnUrl=Model.returnUrl },null) if you don't have an account. 
+        </p>
+        <hr />
+        @Html.ValidationSummary()
+
+      @using (Html.BeginForm(new { @class = "form-inline", @role = "form" }))
+      {
+           <div class="login">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        User Name:
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                         @Html.ValidationMessageFor(m => m.Username)
+                        
+                    </div>
+                </div>
+                <br />
+               <br />
+                <div class="form-group">
+                    <div class="col-md-2">
+                        Password:
+                    </div>
+                    <div class="col-md-10">
+                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", @minlength = "6" })
+                         @Html.ValidationMessageFor(m => m.Password)
+                        
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+                    </div>
+                </div>
+                <br />
+               
+            </div>
+      }
+    </div>
+</div>
+@*<h2>Login</h2>
 
 <p>
    Please enter your username and password or you can  @Html.ActionLink("Register", "Register", "Account", new {@returnUrl=Model.returnUrl },null) if you don't have an account. 
@@ -37,10 +87,11 @@
             </p>
         </fieldset>
     </div>
-}
+}*@
 
 <script type="text/javascript">
     $(document).ready(function () {
         $("DIV.searchFilters").hide();
     });
 </script>
+

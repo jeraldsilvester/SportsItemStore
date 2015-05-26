@@ -13,23 +13,29 @@
      <span class="caption">
                 @if (username != null)
                 {
-                    <text>Welcome <strong>@username</strong> ! @Html.ActionLink("LogOff", "Logoff", "Account")</text>
+                    <text>Welcome <strong>@username</strong> ! @Html.ActionLink("LogOff", "Logoff", "Account", new { @class = "btn btn-link", @style = "color: #ccff99" })</text>
                 }
                 else
                 {                    
-                     @Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new { }) 
+                     @Html.ActionLink("Login", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-link", @style = "color: #ccff99" }) 
                 }
     </span>
      <span class="caption">
          @if (ViewBag.UserId > 0)
          {
-              @Html.ActionLink("My Orders", "MyOrder", "Cart", new { returnUrl = Request.Url.PathAndQuery ,userId=ViewBag.UserId}, new { }) 
+              @Html.ActionLink("My Orders", "MyOrder", "Cart", new { returnUrl = Request.Url.PathAndQuery ,userId=ViewBag.UserId}, new { @class = "btn btn-link", @style = "color: #ccff99" }) 
          }
      </span>
     <span class="caption">
         <b>Your cart:</b>
         @Model.Lines.Sum(x => x.Quantity) item(s), @Model.ComputeTotalValue().ToString("c")       
     </span>
-    @Html.ActionLink("Checkout", "Index", "Cart", new { returnUrl = @Url.Action("List","Product")}, new { id = "chkLnk" })
+    @Html.ActionLink("Checkout", "Index", "Cart", new { returnUrl = @Url.Action("List","Product")}, new { id = "chkLnk",@class="btn btn-link",@style="color: #ccff99;font: italic bold;" })
   
 </div>
+<style>
+   a:hover {
+    color: #FF6666 !important;
+    font : italic bold;
+}
+</style>

@@ -1,36 +1,45 @@
 ﻿@model SportsItemsStore.WebUI.Models.DetailsViewModel
 
 
-<div class="itemDetail">
+<div style="height:auto;width:100%">
+    <div class="container-fluid">
+        <div class ="row-fluid">
+        <div class="span2" style="width:30%;float:left">
+        <h3>@Model.product.Name</h3>
 
-    <div class="left">
-    <h3>@Model.product.Name</h3>
+        @Model.product.Description
 
-    @Model.product.Description
+        @*<h4>@Model.product.Price.ToString("c")</h4>*@
 
-    <h4>@Model.product.Price.ToString("c")</h4>
-
-   </div>
-    <div class="right">
-    @using (Html.BeginForm("AddToCart", "Cart"))
-    {
-        @Html.Hidden("productId",@Model.product.ProductID)
-        @Html.Hidden("returnUrl", @Model.ReturnUrl)
+       </div>
+        <div class="span10" style="width:70%;float:left;">
+        @using (Html.BeginForm("AddToCart", "Cart", new { @class ="form-inline", @role="form" }))
+        {
+            @Html.Hidden("productId", @Model.product.ProductID)
+            @Html.Hidden("returnUrl", @Model.ReturnUrl)
       
-       
-            @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, "Select Size")  
-            @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, "Select Color") 
-            @Html.DropDownList("mnfcId", ViewData["Manufacterers"] as IEnumerable<SelectListItem>, "Select Manufacterer")         
-
-           <input type="submit" value="+ Add To Cart" />
-
-    }
+           <div class="form-group" style ="float:left">
+                @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, "Select Size", new { @class = "form-control dropdownsize" ,@style="float:left; margin-right: 14px;"})
+                @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, "Select Color", new { @class = "form-control dropdownsize",@style="float:left; margin-right: 14px;" })   
+               @Html.DropDownList("mnfcId", ViewData["Manufacterers"] as IEnumerable<SelectListItem>, "Select Manufacterer", new { @class = "form-control dropdownsize",@style="float:left; margin-right: 14px;" })  
+           </div>
+             <input type="submit" value="+ Add To Cart" class="btn btn-info" />
+}
     
-   </div>
+       </div>
+     </div>
+
+    </div>
 </div>
+<style>
+    .dropdownsize{
+        width: 30%;
+    }
+</style>
 
 <script type="text/javascript">
     $(document).ready(function () {
          $("DIV.searchFilters").hide();
     });
 </script>
+

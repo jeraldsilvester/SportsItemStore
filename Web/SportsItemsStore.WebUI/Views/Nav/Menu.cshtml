@@ -2,9 +2,10 @@
 
 @Html.ActionLink("Home", "List", "Product")
 
-@foreach (var link in Model) {
-        @Html.RouteLink(link, new { controller = "Product", action = "List", category = link, page = 1 },
-        new { @class= link== ViewBag.SelectedCategory ? "selected" : null}
+@foreach (var link in Model)
+{
+    @Html.RouteLink(link, new { controller = "Product", action = "List", category = link, page = 1 },
+        new { @class = link == ViewBag.SelectedCategory ? "selected" : null }
         )    
 }
 <br />
@@ -38,35 +39,37 @@
 
 <div class="searchFilters">
 
-@Html.ValidationSummary()
+    @Html.ValidationSummary()
 
-@using (Html.BeginForm("List","Product"))
-{
-    <div>
-        <fieldset>
-            <legend>Filters</legend>
+    @using (Html.BeginForm("List", "Product"))
+    {
+        <div>
+            <fieldset>
+                <legend>Filters</legend>
 
-            <div class="editor-label">
-                Size : <span class="size"> @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>,size) </span>
-            </div>
+                <div class="editor-label">
+                    <label> Size :</label>
+                    <span class="size">@Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, size, new { @class = "form-control" }) </span>
+                </div>
 
-            <div class="editor-label">
-                Color :<span class="color"> @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>,color)  </span>
-            </div>     
-            @*<p>
+                <div class="editor-label">
+                    <label>Color :</label>
+                   <span class="color"> @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, color, new { @class = "form-control" })  </span>
+                </div>
+                @*<p>
                 <input type="submit" value="Search" class="actionButtons" />
             </p>*@
-            <p>
-              <label for="amount">Price Range:</label>
-                  <input type="text" id="amount" style="border:0px; color:#f6931f; font-weight:bold; width:120px;background-color:beige; " value="$0 - $20000">
-            </p>
-              <div id="price_slider" class="editor-label Test">
-              </div>
-        </fieldset>
-    </div>
-}
+                <p>
+                    <label for="amount">Price Range:</label>
+                    <input type="text" id="amount" style="border: 0px; color: #f6931f; font-weight: bold; width: 120px; background-color: beige;" value="$0 - $20000">
+                </p>
+                <div id="price_slider" class="editor-label Test">
+                </div>
+            </fieldset>
+        </div>
+    }
 
-  @*  @{Html.RenderAction("ClearSessionValues", "Nav");}*@
+    @*  @{Html.RenderAction("ClearSessionValues", "Nav");}*@
 </div>
 
 
@@ -74,28 +77,28 @@
 <script type="text/javascript">
     var min = 0, max = 20000;
     $(document).ready(function () {
-        
+
         UsePagingWithAjaxCall();
         GetSlider(min, max);
 
         var sizeId = '@Request.RequestContext.HttpContext.Session["SizeId"]';
         var colorId = '@Request.RequestContext.HttpContext.Session["ColorId"]';
- 
-        if (sizeId >'0') {
+
+        if (sizeId > '0') {
             $("#sizeId").val(sizeId);
-        }        
+        }
         if (colorId > '0') {
             $("#colorId").val(colorId);
         }
-   
+
         var start = '@Request.RequestContext.HttpContext.Session["Start"]';
         var end = '@Request.RequestContext.HttpContext.Session["End"]';
 
 
         var listItem;
         $('#sizeId').change(function () {
-         
-           // if ($('#amount').val() != "" || $("#sizeId").val() != "0" || $("#colorId").val() != 0)
+
+            // if ($('#amount').val() != "" || $("#sizeId").val() != "0" || $("#colorId").val() != 0)
             //$('#categories a').removeClass('selected');
             //listItem = $("#sizeId").val();
             ////alert(listItem);
@@ -104,15 +107,15 @@
             //}
             //else {
             //   GetAllView();
-                //}
-         
+            //}
+
             $('#categories a').removeClass('selected');
             listItem = $("#sizeId").val();
             //alert(listItem);
             if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0) {
                 GetAllView();
             }
-            else {                
+            else {
                 GetViewForASize();
             }
 
@@ -121,7 +124,7 @@
 
         $('#colorId').change(function () {
 
-           // GetSlider(min, max);
+            // GetSlider(min, max);
 
             //$('#amount').val('');
             //$('#categories a').removeClass('selected');
@@ -137,13 +140,13 @@
             listItem = $("#colorId").val();
             if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0) {
                 GetAllView();
-               
+
             }
             else {
                 GetViewForAColor();
             }
         });
-              
+
     });
 
     function GetViewForASize() {
@@ -156,16 +159,16 @@
             en = values[1];
         }
         $.ajax({
-            url: '@Url.Action("SearchWithFilters","Product")',
-            data: { sizeId: $('#sizeId').val(), searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(),start: st , end: en },
-             type: "GET",
-             success: function (data) {
-                 $('DIV.productList').empty().append(data)
-             },
-             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                 alert(textStatus);
-             }
-         });
+            url: '@Url.Action("SearchWithFilters", "Product")',
+            data: { sizeId: $('#sizeId').val(), searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), start: st, end: en },
+            type: "GET",
+            success: function (data) {
+                $('DIV.productList').empty().append(data)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
     }
 
     function GetViewForAColor() {
@@ -176,11 +179,11 @@
             st = values[0];
             en = values[1];
         }
-       
+
 
         $.ajax({
-            url: '@Url.Action("SearchWithFilters","Product")',
-            data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm', sizeId: $('#sizeId').val(), start: st, end: en},
+            url: '@Url.Action("SearchWithFilters", "Product")',
+            data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm', sizeId: $('#sizeId').val(), start: st, end: en },
             type: "GET",
             success: function (data) {
                 $('DIV.productList').empty().append(data)
@@ -193,7 +196,7 @@
 
     function GetAllView() {
         $.ajax({
-            url: '@Url.Action("GetallView","Product")',
+            url: '@Url.Action("GetallView", "Product")',
             // data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm' },
             //data: { searchTerm: '@sessionSearhTerm' },
             type: "GET",
@@ -206,13 +209,13 @@
         });
     }
 
-    function GetSlider(min,max) {
+    function GetSlider(min, max) {
         $("#price_slider").slider({
             min: min,
             max: max,
             step: 5,
             values: [min, max],
-            slide: function( event, ui ) {
+            slide: function (event, ui) {
                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
                 //$("#sizeId").val("0");
                 //$("#colorId").val("0");
@@ -226,7 +229,7 @@
                 var end = parseInt(ui.values[1]);
                 // $("#price_slider_value").html("Rs." + ui.values[0] + " - Rs." + ui.values[1]);
                 $("#amount").val("$" + $("#price_slider").slider("values", 0) + " - $" + $("#price_slider").slider("values", 1));
-            
+
                 //When slider is stopped then get records for range.
                 GetRecords(start, end);
             }//,
@@ -251,12 +254,12 @@
 
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetallByPriceRange","Product")',
-            data: { start: st, end: en, searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(),sizeId: $('#sizeId').val() },
+            url: '@Url.Action("GetallByPriceRange", "Product")',
+            data: { start: st, end: en, searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), sizeId: $('#sizeId').val() },
             success: function (data) {
                 //GetSlider();
                 $('DIV.productList').empty().append(data)
-               // $(".modal").hide();
+                // $(".modal").hide();
             },
             failure: function (response) {
                 alert(response.responseText);
@@ -268,9 +271,9 @@
     }
 
     function UsePagingWithAjaxCall() {
-             
-       
-        $('DIV.pager a').live('click' , function () {
+
+
+        $('DIV.pager a').live('click', function () {
             //alert('bingo');
 
 
@@ -279,10 +282,9 @@
             //}
             //if ($('#amount').val() != "") {
 
-                //$("#sizeId").val("0");
-                //$("#colorId").val("0");
-            if ($('#amount').val() != "" || $("#sizeId").val() != "0" || $("#colorId").val() != 0)
-                {
+            //$("#sizeId").val("0");
+            //$("#colorId").val("0");
+            if ($('#amount').val() != "" || $("#sizeId").val() != "0" || $("#colorId").val() != 0) {
                 var urll = $(this).prop('href');
                 //alert(urll);
                 $.ajax({
@@ -304,10 +306,10 @@
                 return false;
             }
 
-          
-            });          
+
+        });
     }
 
-   
-    
+
+
 </script>
