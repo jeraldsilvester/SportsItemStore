@@ -31,29 +31,37 @@
             </div>
         </nav>
        </header> *@
-        <div id="header">
+       @* <div id="header">
            @{Html.RenderAction("Summary", "Cart");}
            <div class="title"><img src="~/Content/images/logo1.jpg" alt="logo">&nbsp;&nbsp;&nbsp;&nbsp; <span class="appTitle">SPORTSITEMS STORE</span></div>
-        </div>
-
-   @* <header class="navbar navbar-inner navbar-fixed-top">
+        </div>*@
+    <div style="width:100%;height:100%">
+    <header class="navbar navbar-inner navbar-fixed-top">
          <nav class="container">
             <div class="navbar-header">
-               <div class="title"><img src="~/Content/images/logo1.jpg" alt="logo">&nbsp;&nbsp;&nbsp;&nbsp; <span class="appTitle">SPORTSITEMS STORE</span></div>
+               <img src="~/Content/images/logo1.jpg" alt="logo">@*&nbsp;&nbsp;&nbsp;&nbsp; <span class="appTitle">SPORTSITEMS STORE</span>*@
             </div>
              <div class="nav-container" data-collapse="isCollapsed">
                 @{Html.RenderAction("Summary", "Cart");}
               
             </div>
          </nav>
-    </header>*@
+    </header>
       
 <div class="slide-animation-container">
-    <div id="categories">
-        @{Html.RenderAction("Menu", "Nav");}
+    <div class="view">
+    <div class="container glyphicon glyphicon-lock">
+        <header>
+            <h3><span class="glyphicon glyphicon-lock"></span> Login</h3>
+        </header>
+        <div id="categories"  >
+            @{Html.RenderAction("Menu", "Nav");}
+        </div>
+        @*<div style="border-left: 2px solid gray;min-height: 100% !important;height: 100%;"></div>*@
+        <div id="content" style="border-left: 2px solid gray;min-height: 100% !important;height: 100%;">
+            @RenderBody()
+        </div>
     </div>
-    <div id="content">
-        @RenderBody()
     </div>
 
 </div>
@@ -75,7 +83,14 @@
             </div>
         </div>
     </div>
+</div>
+
     
     @RenderSection("scripts", required: false)
+    <style>
+        body {
+            background: none repeat scroll 0 0 #fefeff;
+        }
+    </style>
 </body>
 </html>

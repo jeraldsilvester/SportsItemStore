@@ -6,29 +6,33 @@
 
 <h2>Your cart</h2>
 
-<table width="90%" align="center">
+
+<table class="table table-hover table-striped table-condensed table-bordered ordersTable">
     <thead>
         <tr>
-            <th align="center" class="columnHeader">Quantity</th>
+             <th align="left" class="columnHeader">Quantity</th>
             <th align="left" class="columnHeader">Item</th>
             <th align="left" class="columnHeader">Size</th>
             <th align="left" class="columnHeader">Color</th>
             <th align="left" class="columnHeader">Manufacterer</th>
-            <th align="right" class="columnHeader">Price</th>
-            <th align="right" class="columnHeader">Subtotal</th>
+            <th align="left" class="columnHeader">Price</th>
+            <th align="left" class="columnHeader">Sub-Total</th>
+             <th align="left" class="columnHeader"></th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach(var line in Model.Cart.Lines) {
-            <tr>
-                <td align="center" class="cartQty">@line.Quantity</td>
-                <td align="left" class="cartPrName">@line.Product.Name</td>
-                <td align="left" class="cartSize">@line.Size</td>
-                <td align="left" class="cartColor">@line.Color</td>
-                <td align="left" class="cartMnfc">@line.Manufacterer</td>
-                <td align="right" class="cartPrice">@line.Product.Price.ToString("c")</td>
-                <td align="right" class="cartQtyTotal">@((line.Quantity* line.Product.Price).ToString("c"))</td>    
+           
+      @foreach(var line in Model.Cart.Lines) {
+        
+           <tr>
+                <td align="center">@line.Quantity</td>
+                <td align="left" >@line.Product.Name</td>
+                <td align="left" >@line.Size</td>
+                <td align="left" >@line.Color</td>
+                <td align="left" >@line.Manufacterer</td>
+                <td align="right">@line.Product.Price.ToString("c")</td>
+                <td align="right"  >@((line.Quantity* line.Product.Price).ToString("c"))</td>    
                 <td>
                     @using (Html.BeginForm("RemoveFromCart", "Cart"))
                     {
@@ -37,25 +41,25 @@
                           @Html.Hidden("mnfcId", line.ManufactererId)
                         @Html.Hidden("ProductId", line.Product.ProductID)
                         @Html.HiddenFor(x => x.ReturnUrl)
-                        <input class="actionButtons" type="submit" value="- Remove" />
+                        <input class="btn btn-link" type="submit" value="- Remove" />
                     }
-                </td>           
-            </tr>
+                </td>  
+             </tr>
+         
         }
-    </tbody>
 
-    <tfoot>
+    </tbody>
+     <tfoot>
        <tr>
             <td colspan="6" align="right">Total:</td>
-            <td align="right" class="cartTotal"> @Model.Cart.ComputeTotalValue().ToString("c") </td>           
+            <td align="right" class="cartTotal" style="border-right:none"> @Model.Cart.ComputeTotalValue().ToString("c") </td>           
       </tr>
     </tfoot>
+   
 </table>
-
-
 <p align="center" class="actionButtons">
-    <a href="@Model.ReturnUrl">Continue shopping</a>
-    @Html.ActionLink("Checkout now", "Checkout", new { }, new { id = "chkNow" })
+    <a href="@Model.ReturnUrl" class="btn btn-info">Continue shopping</a>
+    @Html.ActionLink("Checkout now", "Checkout", new {  }, new { id = "chkNow",@class="btn btn-info" })
 </p>
 
 <script type="text/javascript">

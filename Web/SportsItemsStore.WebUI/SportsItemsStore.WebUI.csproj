@@ -171,6 +171,9 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\logo1.jpg" />
     <Content Include="Content\Images\male.png" />
+    <Content Include="Content\Images\misc\loading.gif" />
+    <Content Include="Content\Images\misc\Search1.png" />
+    <Content Include="Content\Images\misc\Search2.png" />
     <Content Include="Content\Images\Optimized-logo.png" />
     <Content Include="Content\Images\people.png" />
     <Content Include="Content\Images\report.png" />
@@ -234,6 +237,8 @@
     <Content Include="Content\Site.css" />
     <None Include="Properties\PublishProfiles\Test.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\bootstrapPager.js" />
+    <Content Include="Scripts\bootstrapPager.min.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

@@ -26,7 +26,7 @@ Previous Order(s) for User : @username
 <b>Details of your order :</b>
 <br />
 <br />
-<table width="80%" align="left">
+<table class="table table-hover table-striped table-condensed table-bordered ordersTable">
     <thead>
         <tr>
              <th align="left" class="columnHeader">Order Id</th>
@@ -35,28 +35,19 @@ Previous Order(s) for User : @username
             <th align="left" class="columnHeader">Ordered Date</th>
             <th align="left" class="columnHeader">Shipment Date</th>
             <th align="left" class="columnHeader">Delivery Date</th>
-            @*<th align="left" class="columnHeader">Color</th>
-            <th align="left" class="columnHeader">Manufacterer</th>
-            <th align="left" class="columnHeader">Price</th>
-            <th align="left" class="columnHeader">Subtotal</th>*@
+            
             
         </tr>
     </thead>
 
     <tbody>
-        @*@foreach(var line in Model.orderLines) { *@
+       
 
-        @{
-            var applyStyle = "";
-          }
         @foreach (var line in Model)
         {
             var totalItems = line.OrderDetails.Sum(x=>x.Quantity);
           
-           
-                 <tr><td colspan="9"><br /></td></tr>
-                @*<tr><td colspan="9" align="left"><b>Order#  @line.OrderId</b></td></tr>*@
-                <tr class="@applyStyle">
+              <tr class="">
                         <td align="left" ><b> <a class="tooltips" href="#" id ="@line.OrderId">Order#</a>  @line.OrderId</b></td>
                         <td align="left">@totalItems</td>
                         <td align="left">@line.OrderTotal</td>
@@ -73,7 +64,7 @@ Previous Order(s) for User : @username
                     </td>*@
                           
                 </tr>
-            applyStyle = "rowDivider";
+          
               
         }
     </tbody>
@@ -92,8 +83,7 @@ Previous Order(s) for User : @username
             var $OrderId = $(this).attr('id');
             var $detail = false;
             if ($('#orderDetails_' + $OrderId).css('display') == "none") {
-                alert("Hi");
-               $detail = true;
+                $detail = true;
            }
            if ($detail) {
                $("#orderDetails_" + $OrderId).toggle("slow");

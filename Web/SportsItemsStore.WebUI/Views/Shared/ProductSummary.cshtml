@@ -19,7 +19,7 @@
     {
         @Html.HiddenFor(x => x.ProductID)
         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-        <input type="submit" value="View Details" />
+        <input type="submit" value="View Details" class="btn btn-info"/>
     }
     <h4>@Model.Price.ToString("c")</h4>
 
