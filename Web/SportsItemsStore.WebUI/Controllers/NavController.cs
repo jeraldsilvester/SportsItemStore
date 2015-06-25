@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SportsItemsStore.Domain.Abstract;
+using SportsItemsStore.Domain.Entities;
 
 namespace SportsItemsStore.WebUI.Controllers
 {
@@ -19,7 +20,7 @@ namespace SportsItemsStore.WebUI.Controllers
         {
             ViewBag.SelectedCategory = category;
 
-            IEnumerable<string> categories = repository.Products.Select(x => x.Category).Distinct().OrderBy(x => x);
+            IEnumerable<Category> categories = repository.Categories;
 
 
             List<SelectListItem> sizes = repository.Sizes.Select(x => new SelectListItem { Text = x.ShortName, Value = x.SizeID.ToString() }).ToList();

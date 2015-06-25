@@ -13,7 +13,7 @@
      <span class="caption">
                 @if (username != null)
                 {
-                    <text>Welcome <strong>@username</strong> ! @Html.ActionLink("LogOff", "Logoff", "Account", new { @class = "btn btn-link", @style = "color: #ccff99" })</text>
+                    <text>Welcome <strong>@username</strong> ! <a href="@Url.Action("LogOff","Account")" class = "btn btn-link" style ="color: #ccff99" >LogOff</a></text>
                 }
                 else
                 {                    

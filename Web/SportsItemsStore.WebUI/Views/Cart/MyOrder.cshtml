@@ -89,11 +89,16 @@ Previous Order(s) for User : @username
                $("#orderDetails_" + $OrderId).toggle("slow");
                 $.ajax({
                    type: "POST",
-                   url: '/Cart/MyOrderDetails?orderId=' + $OrderId,
+                   url: '@Url.Action("MyOrderDetails", "Cart")',
+                    data: { "orderId": $OrderId },
                    dataType: 'html',
                    success: function (data) {
                        $('#orderDetails_' + $OrderId).html('<td colspan="6"><div>' + data + '</div></td>');
+                   },
+                   error: function (XMLHttpRequest, textStatus, errorThrown) {
+                       alert(textStatus);
                    }
+                   
                });
            }
            else {

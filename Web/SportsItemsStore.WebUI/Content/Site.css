@@ -102,7 +102,7 @@ DIV.searchPnl {
 }
 
 DIV.item {
-    border-top: 1px dotted gray;
+    /*border-top: 1px dotted gray;*/
     padding-top: .7em;
     margin-bottom: .7em;
 }

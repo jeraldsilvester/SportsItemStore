@@ -54,40 +54,7 @@
       }
     </div>
 </div>
-@*<h2>Login</h2>
 
-<p>
-   Please enter your username and password or you can  @Html.ActionLink("Register", "Register", "Account", new {@returnUrl=Model.returnUrl },null) if you don't have an account. 
-</p>
-
-@Html.ValidationSummary()
-
-@using (Html.BeginForm())
-{
-    <div>
-        <fieldset>
-            <legend>Account Information</legend>
-
-            <div class="editor-label">
-                Username
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Username)
-                @Html.ValidationMessageFor(m => m.Username)
-            </div>
-            <div class="editor-label">
-                Password
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </div>
-            <p>
-                <input type="submit" value="Login" class="actionButtons" />
-            </p>
-        </fieldset>
-    </div>
-}*@
 
 <script type="text/javascript">
     $(document).ready(function () {

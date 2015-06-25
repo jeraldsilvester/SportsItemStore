@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SportsItemsStore.Domain.Entities;
 using SportsItemsStore.Domain.Abstract;
 using SportsItemsStore.WebUI.Models;
+using System.IO;
 
 namespace SportsItemsStore.WebUI.Controllers
 {
@@ -13,293 +14,61 @@ namespace SportsItemsStore.WebUI.Controllers
     {
 
         private IProductsRepository repository;
+        ItemLoaderManager iLoaderMgr ;
         public int PageSize = 4;
-
+        
         public ProductController(IProductsRepository productRepository)
         {
             this.repository = productRepository;
-        }
-
-
-
-        public ActionResult List(string category, int page = 1, string searchTerm = null , int sizeId=0,int colorId=0,int start=0,int end=0)
-        {
-            IEnumerable<Product> prods = null;
-            int totItems = 0;
-
-            Session["SizeId"] = sizeId.ToString();
-            Session["ColorId"] = colorId.ToString();
-            Session["Start"] = start;
-            Session["End"] = end;
-
-            string sizeName = "", colorName = "";
-            if (sizeId > 0)
-            {
-                sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-            }
-            if (colorId > 0)
-            {
-                colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-            }
-
-            if (searchTerm != null && searchTerm != "")
-            {
-                if (start > 0 || end > 0)                
-                {
-                    if (sizeId != 0 && colorId != 0)
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                    .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                        Session["Size"] = sizeName;
-                        Session["Color"] = colorName;
-
-                        Session["SizeId"] = sizeId.ToString();
-                        Session["ColorId"] = colorId.ToString();
-
-                    }
-                    else if (sizeId != 0 && colorId ==0)
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-                       
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p =>p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                        Session["Size"] = sizeName;
-                         Session["SizeId"] = sizeId.ToString();
-
-                    }
-                    else if(colorId !=0 && sizeId==0)
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p =>p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-                       
-                       
-                        Session["Color"] = colorName;
-                        Session["ColorId"] = colorId.ToString();
-                    }
-                    
-                    else
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm))
-                                                     .Where(p => p.Price >= start && p.Price <= end)
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm)).Where(p => p.Price >= start && p.Price <= end).Count();
-                    }
-                   // Session["SearchTerm"] = searchTerm;
-                    //Session["Start"] = start;
-                    //Session["End"] = end;
-
-                }
-                else
-                {
-                    if (sizeId != 0 && colorId != 0)
-                    {
-
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                          .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                        totItems = category == null ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm) && x.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && x.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                        Session["Size"] = sizeName;
-                        Session["Color"] = colorName;
-                        //Session["SearchTerm"] = searchTerm;
-
-                        Session["SizeId"] = sizeId.ToString();
-                        Session["ColorId"] = colorId.ToString();
-                    }
-                    else if (sizeId != 0 && colorId == 0)
-                    {
-
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                          .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                        totItems = category == null ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm) && x.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                        Session["Size"] = sizeName;
-                         Session["SizeId"] = sizeId.ToString();
-                    }
-                    else if (colorId != 0 && sizeId == 0)
-                    {
-
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                          .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-
-                        totItems = category == null ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm) && x.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-                        Session["Color"] = colorName;
-                         Session["ColorId"] = colorId.ToString();
-
-                    }
-                    else
-                    {
-                        prods = repository.Products
-                                        .Where(p => p.Name.Contains(searchTerm))
-                                        .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                        totItems = category == null ? repository.Products.Where(y => y.Name.Contains(searchTerm)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm)).Count();
-
-                        Session["Color"] = null;
-                        Session["Size"] = null;
-                        Session["SizeId"] = null;
-                        Session["ColorId"] = null;
-                        Session["Start"] = null;
-                        Session["End"] = null;
-                    }
-                    //else
-                    //{
-                    //    prods = repository.Products
-                    //                             .Where(p => p.Price >= start && p.Price <= end)
-                    //                             .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                    //    totItems = start == 0 && end == 0 ? repository.Products.Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end).Count();
-                    //}
-                }
-                Session["SearchTerm"] = searchTerm;
-            }
-
-            else 
-            {
-                if (start > 0 || end > 0)
-                {
-
-                    //*************
-                    if (sizeId != 0 && colorId != 0)
-                    {
-                        prods = repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                    .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                        Session["Size"] = sizeName;
-                        Session["Color"] = colorName;
-
-                         Session["SizeId"] = sizeId.ToString();
-                         Session["ColorId"] = colorId.ToString();
-
-                    }
-
-                    else if (sizeId != 0 && colorId == 0)
-                    {
-                        prods = repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                        Session["Size"] = sizeName;
-                         Session["SizeId"] = sizeId.ToString();
-
-                    }
-                    else if (colorId != 0 && sizeId == 0)
-                    {
-                        prods = repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                        //string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                        Session["Color"] = colorName;
-                        Session["ColorId"] = colorId.ToString();
-
-                    }
-                    //*****************
-                    else
-                    {
-                        prods = repository.Products
-                                                       .Where(p => p.Price >= start && p.Price <= end)
-                                                       .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end).Count();
-                    }
-                    //***************
-                }
-                else
-                {
-                        if (sizeId != 0 && colorId != 0)
-                        {
-
-                            prods = repository.Products.Where(p => p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                              .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                            totItems = category == null ? repository.Products.Where(p => p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(x => x.Category == category && x.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && x.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                             Session["Size"] = sizeName;
-                             Session["Color"] = colorName;
-
-                             Session["SizeId"] = sizeId.ToString();
-                             Session["ColorId"] = colorId.ToString();
-
-                        }
-                        else if (sizeId > 0 && colorId == 0)
-                        {
-                            prods = repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-                            
-                            totItems = category == null ? repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).Count() : repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).Where(pp => pp.Category == category).Count();
-
-                            Session["Size"] = sizeName;
-                            Session["SizeId"] = sizeId.ToString();
-                        }
-                        else if (colorId > 0 && sizeId == 0)
-                        {                            
-                            prods = repository.ProductColors.Where(pc => pc.Color.ColorID == colorId).Select(p => p.Product).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-                         
-                            totItems = category == null ? repository.ProductColors.Where(pc => pc.Color.ColorID == colorId).Select(p => p.Product).Count() : repository.ProductColors.Where(pc => pc.Color.ColorID == colorId).Select(p => p.Product).Where(pp => pp.Category == category).Count();
-
-                             Session["Color"] = colorName;
-                             Session["ColorId"] = colorId.ToString();
-                        }
-
-                        else
-                        {
-                            prods = repository.Products
-                                        .Where(p => category == null || p.Category == category)
-                                        .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            totItems = category == null ? repository.Products.Count() : repository.Products.Where(x => x.Category == category).Count();
-                            Session["SearchTerm"] = null;
-                            Session["Color"] = null;
-                            Session["Size"] = null;
-                            Session["SizeId"] = null;
-                            Session["ColorId"] = null;
-                            Session["Start"] = null;
-                            Session["End"] = null;
-
-                        }
-
-                    
-                }
-
-            }           
+            this.iLoaderMgr = new ItemLoaderManager(productRepository);
            
-            
-            ProductsListViewModel model = new ProductsListViewModel
-            {
-                Products = prods,
+       }
 
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = PageSize,
-                    TotalItems = totItems,
-                    SizeId=sizeId,
-                    ColorId=colorId,
-                    StartPrice=start,
-                    EndPrice=end
-                },
 
-                CurrentCategory = category,
-                SearchTerm=searchTerm
-            };
-      
-                return View(model);          
+
+        public ActionResult List(int categoryId = 0, int BlockNumber=1, int BlockSize=5,string searchTerm = null,
+            int sizeId = 0, int colorId = 0, int start = 0, int end = 0)
+        {
+            var model = iLoaderMgr.ProductsList(categoryId, BlockNumber, BlockSize, searchTerm, sizeId, colorId, start, end);           
+                       
+            return View(model);          
         }
 
+
+        [HttpPost]
+        public ActionResult InfinateScroll(int categoryId = 0, int BlockNumber = 1, int BlockSize = 5, string searchTerm = null,
+            int sizeId = 0, int colorId = 0, int start = 0, int end = 0)
+        {
+            //////////////// THis line of code only for demo. Needs to be removed ///////////////
+            System.Threading.Thread.Sleep(3000);
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+
+            var productModel = iLoaderMgr.ProductsList(categoryId, BlockNumber, BlockSize, searchTerm, sizeId, colorId, start, end);
+
+            JsonModel jsonModel = new JsonModel();
+            jsonModel.NoMoreData = productModel.Products.Count() < BlockSize;
+            jsonModel.HTMLString = RenderPartialViewToString("ProductPopList", productModel);
+
+            return Json(jsonModel);
+        }
+
+        protected string RenderPartialViewToString(string viewName, object model)
+        {
+            if (string.IsNullOrEmpty(viewName))
+                viewName = ControllerContext.RouteData.GetRequiredString("action");
+
+            ViewData.Model = model;
+
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
+        }
 
         public JsonResult GetProducts(string term)
         {
@@ -340,443 +109,53 @@ namespace SportsItemsStore.WebUI.Controllers
                 ReturnUrl=returnUrl
             };
 
-            Session["SearchTerm"] = null;
-            Session["Color"] = null;
-            Session["Size"] = null;
-            Session["SizeId"] = null;
-            Session["ColorId"] = null;
-            Session["Start"] = null;
-            Session["End"] = null;
+           
             return View(model);
             //return RedirectToAction("Index", new { returnUrl });
         }
 
-        public PartialViewResult SearchWithFilters(string searchTerm, string category, int page = 1, int sizeId = 0, int colorId = 0, int start = 0, int end = 0)
+        public PartialViewResult SearchWithFilters(int categoryId = 0, int BlockNumber = 1, int BlockSize = 5, string searchTerm = null,
+           int sizeId = 0, int colorId = 0, int start = 0, int end = 0)
         {
-            IEnumerable<Product> prods = null;
-            int totItems = 0;
-            ProductsListViewModel model = null;
-            string sizeName = "",colorName="" ;
-            if (sizeId > 0)
-            {
-                 sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-            }
-            if (colorId > 0)
-            {
-                colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-            }
 
-            if (searchTerm != null && searchTerm != "")
-            {
-                if (start > 0 || end > 0)
-                {
-                    if (sizeId != 0 && colorId != 0)
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                    .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
+            ViewBag.SizeId = sizeId;
+            ViewBag.ColorId = colorId;
+            ViewBag.Start = start;
+            ViewBag.End = end;
 
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
+            var model = iLoaderMgr.ProductsList(categoryId, BlockNumber, BlockSize, searchTerm, sizeId, colorId, start, end);
 
-                        //string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                        Session["Size"] = sizeName;
-
-                        //string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                        Session["Color"] = colorName;
-
-                    }
-
-                    else if (sizeId != 0 && colorId == 0)
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        //totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm)).Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                        //string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                        Session["Size"] = sizeName;
-
-                    }
-                    else if (colorId != 0 && sizeId == 0)
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                        //string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                        Session["Color"] = colorName;
-
-                    }
-                    else
-                    {
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm))
-                                                     .Where(p => p.Price >= start && p.Price <= end)
-                                                     .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                        totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm)).Where(p => p.Price >= start && p.Price <= end).Count();
-                    }
-                }
-                else
-                {
-                    if (sizeId != 0 && colorId != 0)
-                    {
-
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                          .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                        totItems = category == null ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm) && x.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && x.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                        //Session["Size"] = sizeName;
-                        //Session["Color"] = colorName;
-                        //Session["SearchTerm"] = searchTerm;
-                    }
-                    else if (sizeId != 0 && colorId==0)
-                    {
-
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                          .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                        totItems = category == null ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm) && x.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                    }
-                    else if (colorId != 0 && sizeId==0)
-                    {
-
-                        prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                          .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-
-                        totItems = category == null ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm) && x.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                    }
-                    else
-                    {
-                        prods = repository.Products
-                                        .Where(p => p.Name.Contains(searchTerm))
-                                        .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                        totItems = category == null ? repository.Products.Where(y => y.Name.Contains(searchTerm)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm)).Count();
-                    }
-                }
-            }
-            else
-            {
-                if (start > 0 || end > 0)
-                {
-
-                    //*************
-                      if (sizeId != 0 && colorId != 0)
-                        {
-                            prods = repository.Products.Where(p =>p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                        .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            totItems = start == 0 && end == 0 ? repository.Products.Where(p =>  p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p =>  p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                            //string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                            Session["Size"] = sizeName;
-
-                            //string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                            Session["Color"] = colorName;
-
-                        }
-
-                        else if (sizeId != 0 && colorId == 0)
-                        {
-                            prods = repository.Products.Where(p =>  p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                                         .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            totItems = start == 0 && end == 0 ? repository.Products.Where(p =>  p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                            //string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                            Session["Size"] = sizeName;
-
-                        }
-                        else if (colorId != 0 && sizeId == 0)
-                        {
-                            prods = repository.Products.Where(p =>p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                         .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            totItems = start == 0 && end == 0 ? repository.Products.Where(p =>  p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p =>  p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                            //string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                            Session["Color"] = colorName;
-
-                        }
-                       //*****************
-                        else
-                        {
-                            prods = repository.Products
-                                                           .Where(p => p.Price >= start && p.Price <= end)
-                                                           .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            totItems = start == 0 && end == 0 ? repository.Products.Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end).Count();
-                        }
-                    //***************
-                }
-                else
-                {
-                    if (sizeId != 0 || colorId != 0)
-                    {
-                        if (sizeId != 0 && colorId != 0)
-                        {
-
-                            prods = repository.Products.Where(p => p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                              .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                            totItems = category == null ? repository.Products.Where(p => p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(x => x.Category == category && x.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && x.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                            //Session["Size"] = sizeName;
-                            //Session["Color"] = colorName;
-                            //Session["SearchTerm"] = searchTerm;
-
-                        }
-                        else if (sizeId > 0 && colorId == 0)
-                        {
-                            prods = repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            // totItems = category == null ? repository.Products.Where(y => y.Name.Contains(searchTerm)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm)).Count();
-                            totItems = category == null ? repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).Count() : repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).Where(pp => pp.Category == category).Count();
-
-
-                            //Session["Size"] = sizeName;
-                        }
-                        else if (colorId > 0 && sizeId == 0)
-                        {
-                            //prods = repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-                            prods = repository.ProductColors.Where(pc => pc.Color.ColorID == colorId).Select(p => p.Product).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            //totItems = category == null ? repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).Count() : repository.ProductSizes.Where(ps => ps.Size.SizeID == sizeId).Select(p => p.Product).Where(pp => pp.Category == category).Count();
-                            totItems = category == null ? repository.ProductColors.Where(pc => pc.Color.ColorID == colorId).Select(p => p.Product).Count() : repository.ProductColors.Where(pc => pc.Color.ColorID == colorId).Select(p => p.Product).Where(pp => pp.Category == category).Count();
-                        }
-
-                        else
-                        {
-                            prods = repository.Products
-                                        .Where(p => category == null || p.Category == category)
-                                        .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                            totItems = category == null ? repository.Products.Count() : repository.Products.Where(x => x.Category == category).Count();
-                            //Session["SearchTerm"] = null;
-                        }
-
-                    }
-                }
-            }
-
-            model = new ProductsListViewModel
-            {
-                Products = prods,
-
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = PageSize,
-                    TotalItems = totItems,
-                    SizeId = sizeId,
-                    ColorId = colorId,
-                    StartPrice=start,
-                    EndPrice=end
-                },
-
-                CurrentCategory = category,
-                SearchTerm=searchTerm
-            };
             return PartialView("ProductsList", model);
-                       
+
         }
 
-        public PartialViewResult GetallView(string searchTerm,string category, int page = 1, int sizeId = 0, int colorId = 0,int start=0,int end=0)
+
+        public PartialViewResult GetallView(int categoryId = 0, int BlockNumber = 1, int BlockSize = 5, string searchTerm = null,
+           int sizeId = 0, int colorId = 0, int start = 0, int end = 0)
         {
-            IEnumerable<Product> prods = null;
-            int totItems = 0;
-            ProductsListViewModel model = null;
 
-            //if (sizeId == 0)
-            //{
+            ViewBag.SizeId = sizeId;
+            ViewBag.ColorId = colorId;
+            ViewBag.Start = start;
+            ViewBag.End = end;
 
-            //}
+            var model = iLoaderMgr.ProductsList(categoryId, BlockNumber, BlockSize, searchTerm, sizeId, colorId, start, end);
 
-
-            if (sizeId == 0 || colorId == 0)
-            {
-                if (searchTerm != null && searchTerm != "")
-                {
-                    prods = repository.Products
-                                        .Where(p => p.Name.Contains(searchTerm))
-                                        .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
-                    totItems = category == null ? repository.Products.Where(y => y.Name.Contains(searchTerm)).Count() : repository.Products.Where(x => x.Category == category && x.Name.Contains(searchTerm)).Count();
-                }
-
-                else
-                {
-
-                    prods = repository.Products
-                                               .Where(p => category == null || p.Category == category)
-                                               .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                    totItems = category == null ? repository.Products.Count() : repository.Products.Where(x => x.Category == category).Count();
-                }
-
-            }
-
-
-            model = new ProductsListViewModel
-            {
-                Products = prods,
-
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = PageSize,
-                    TotalItems = totItems,
-                    SizeId = sizeId,
-                    ColorId = colorId,
-                    StartPrice = start,
-                    EndPrice = end
-                },
-
-                CurrentCategory = category,
-                SearchTerm = searchTerm
-            };
             return PartialView("ProductsList", model);
         }
 
-   
 
-        public PartialViewResult GetallByPriceRange(string searchTerm, int start = 0, int end = 0, int page = 1, string category = null, int sizeId = 0, int colorId = 0)
+
+        public PartialViewResult GetallByPriceRange(int categoryId = 0, int BlockNumber = 1, int BlockSize = 5, string searchTerm = null,
+           int sizeId = 0, int colorId = 0, int start = 0, int end = 0)
         {
-            IEnumerable<Product> prods = null;
-            int totItems = 0;
-            ProductsListViewModel model = null;
-            int st = Convert.ToInt32(start);
-            int en = Convert.ToInt32(end);
 
-            //Session["Start"] = st;
-            //Session["End"] = en;
+            ViewBag.SizeId = sizeId;
+            ViewBag.ColorId = colorId;
+            ViewBag.Start = start;
+            ViewBag.End = end;
 
-            if (searchTerm != null && searchTerm != "")
-            {
-                if (sizeId != 0 && colorId != 0)
-                {
-                    prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                    totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                    string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                    Session["Size"] = sizeName;
-
-                    string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                    Session["Color"] = colorName;
-
-                }
-
-                else if (sizeId != 0 && colorId==0)
-                {
-                    prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                                 .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                    //totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm)).Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                    totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                    string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                    Session["Size"] = sizeName;
-
-                }
-                else if (colorId != 0 && sizeId==0)
-                {
-                    prods = repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                                 .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                    totItems = start == 0 && end == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm) && p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                    string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                    Session["Color"] = colorName;
-
-                }
-                else
-                {
-                    prods = repository.Products.Where(p => p.Name.Contains(searchTerm))
-                                                 .Where(p => p.Price >= st && p.Price <= en)
-                                                 .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                    totItems = st == 0 && en == 0 ? repository.Products.Where(p => p.Name.Contains(searchTerm)).Count() : repository.Products.Where(p => p.Name.Contains(searchTerm)).Where(p => p.Price >= st && p.Price <= en).Count();
-                }
-
-            }
-           //***************************
-            else if (sizeId != 0 && colorId != 0)
-            {
-                prods = repository.Products.Where(p =>p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                            .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                totItems = start == 0 && end == 0 ? repository.Products.Where(p =>  p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p =>  p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId) && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                Session["Size"] = sizeName;
-
-                string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                Session["Color"] = colorName;
-
-            }
-
-            else if (sizeId != 0 && colorId == 0)
-            {
-                prods = repository.Products.Where(p =>  p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId))
-                                             .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                totItems = start == 0 && end == 0 ? repository.Products.Where(p =>  p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count() : repository.Products.Where(p => p.Price >= start && p.Price <= end && p.ProductSizes.Select(ps => ps.Size.SizeID).Contains(sizeId)).Count();
-
-                string sizeName = repository.Sizes.Where(s => s.SizeID == sizeId).Select(ss => ss.ShortName).SingleOrDefault();
-                Session["Size"] = sizeName;
-
-            }
-            else if (colorId != 0 && sizeId == 0)
-            {
-                prods = repository.Products.Where(p =>p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId))
-                                             .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                totItems = start == 0 && end == 0 ? repository.Products.Where(p =>  p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count() : repository.Products.Where(p =>  p.Price >= start && p.Price <= end && p.ProductColors.Select(pc => pc.Color.ColorID).Contains(colorId)).Count();
-
-                string colorName = repository.Colors.Where(c => c.ColorID == colorId).Select(cc => cc.Name).SingleOrDefault();
-                Session["Color"] = colorName;
-
-            }
-           //*****************
-            else
-            {
-                prods = repository.Products
-                                               .Where(p => p.Price >= st && p.Price <= en)
-                                               .OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
-
-                totItems = st == 0 && en == 0 ? repository.Products.Count() : repository.Products.Where(p => p.Price >= st && p.Price <= en).Count();
-            }
-
-            model = new ProductsListViewModel
-            {
-                Products = prods,
-
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = PageSize,
-                    TotalItems = totItems,
-                    StartPrice = st,
-                    EndPrice = en,
-                    SizeId=sizeId,
-                    ColorId=colorId
-                },
-
-                CurrentCategory = category,
-                SearchTerm = searchTerm
-            };
-
-
-
+           var model = iLoaderMgr.ProductsList(categoryId, BlockNumber, BlockSize, searchTerm, sizeId, colorId, start, end);
 
             return PartialView("ProductsList", model);
         }

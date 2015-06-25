@@ -1,0 +1,5 @@
+﻿@model SportsItemsStore.WebUI.Models.ProductsListViewModel
+@foreach (var p in Model.Products)
+{
+    Html.RenderPartial("ProductSummary", p);
+}

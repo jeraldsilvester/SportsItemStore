@@ -16,5 +16,9 @@ namespace SportsItemsStore.WebUI.Models
         public string Password { get; set; }
 
         public string returnUrl { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+
     }
 }

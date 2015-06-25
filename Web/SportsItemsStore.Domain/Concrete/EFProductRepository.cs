@@ -28,7 +28,10 @@ namespace SportsItemsStore.Domain.Concrete
             get { return context.ProductSizes; }
         }
 
-
+        public IQueryable<Category> Categories
+        {
+            get { return context.Categories; }
+        }
 
         public IQueryable<Color> Colors
         {

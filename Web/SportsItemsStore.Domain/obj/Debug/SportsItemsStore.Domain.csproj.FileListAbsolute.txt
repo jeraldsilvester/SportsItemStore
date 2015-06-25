@@ -18,3 +18,13 @@ D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\bin\Deb
 D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\obj\Debug\SportsItemsStore.Domain.dll
 D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\obj\Debug\SportsItemsStore.Domain.pdb
 D:\E-Commerce\SportsItemsStore1\SportsItemsStore\SportsItemsStore.Domain\obj\Debug\SportsItemsStore.Domain.csprojResolveAssemblyReference.cache
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\SportsItemsStore.Domain.dll.config
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\SportsItemsStore.Domain.dll
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\SportsItemsStore.Domain.pdb
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\EntityFramework.dll
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\EntityFramework.SqlServer.dll
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\EntityFramework.xml
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\bin\Debug\EntityFramework.SqlServer.xml
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\obj\Debug\SportsItemsStore.Domain.dll
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\obj\Debug\SportsItemsStore.Domain.pdb
+D:\E-Commerce\SportsItemStore\Web\SportsItemsStore.Domain\obj\Debug\SportsItemsStore.Domain.csprojResolveAssemblyReference.cache

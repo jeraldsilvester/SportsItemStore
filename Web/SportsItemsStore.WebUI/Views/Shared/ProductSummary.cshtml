@@ -1,26 +1,47 @@
 ﻿@model SportsItemsStore.Domain.Entities.Product
 
-<div class="item">
-    <h3>@Model.Name</h3>
-
-    @Model.Description
-
-   @* @using (Html.BeginForm("AddToCart", "Cart"))
-    {
-        @Html.HiddenFor(x => x.ProductID)
-        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-        <input type="submit" value="+ Add To Cart" />
-    }
-    <h4>@Model.Price.ToString("c")</h4>*@
-
- @*   After adding View Details*@
-
-    @using (Html.BeginForm("ViewDetails", "Product"))
-    {
-        @Html.HiddenFor(x => x.ProductID)
-        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-        <input type="submit" value="View Details" class="btn btn-info"/>
-    }
-    <h4>@Model.Price.ToString("c")</h4>
-
+<div class="item itemContainer" >
+ 
+     <div class="itemHeading">@Model.Name</div>
+  
+       
+             <img src="@Url.Content("~/Content/images/Tumbnail/")@Model.ThumbnailUrl" title="@Model.Name" style="margin-left: 9px; margin-top: -10px;height:86px;width:86px;" />
+        
+        <div style="margin-top: -76px; margin-left: 93px;" >
+   
+            <div class="itemDesc"> @Model.Description</div>
+                @using (Html.BeginForm("ViewDetails", "Product"))
+                {
+                    @Html.HiddenFor(x => x.ProductID)
+                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                    <input type="submit" value="View Details" class="btn btn-info itemBtn" />
+                }
+                <div class="itemPrice">@Model.Price.ToString("c")</div>
+           </div>
+   
 </div>
+<style>
+    .itemHeading {
+        padding: 15px; 
+        font-size: 25px;
+        color: #7b4f9d;
+    }
+    .itemContainer {
+        height: 150px;
+        background-color: #F3F3F3;
+         margin-bottom: 6px;
+    }
+    .itemDesc {
+        padding-left: 30px; 
+        font-size: 18px;
+    }
+    .itemPrice {
+        padding-left: 30px;
+         padding-right: 30px;
+          font-size: 18px;
+    }
+    .itemBtn {
+        margin-right: 19px;
+        margin-top: -14px;
+    }
+</style>

@@ -32,7 +32,7 @@ namespace SportsItemsStore.WebUI.Controllers
             model.Username = string.Empty;
             model.Password = string.Empty;
             model.returnUrl = returnUrl;
-            
+            this.Session["User"] = null;
 
             return View(model);
         }

@@ -25,6 +25,7 @@ namespace SportsItemsStore.Domain.Concrete
 
         public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
         
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
