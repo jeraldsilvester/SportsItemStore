@@ -1,11 +1,11 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<SportsItemsStore.Domain.Entities.Category>
 
 @Html.ActionLink("Home", "List", "Product")
 
 @foreach (var link in Model)
 {
-    @Html.RouteLink(link, new { controller = "Product", action = "List", category = link, page = 1 },
-        new { @class = link == ViewBag.SelectedCategory ? "selected" : null }
+    @Html.RouteLink(link.CategoryName, new { controller = "Product", action = "List", categoryId = link.CategoryId},
+        new { @class = link.CategoryName == ViewBag.SelectedCategory ? "selected" : null }
         )    
 }
 <br />
@@ -49,7 +49,7 @@
 
                 <div class="editor-label">
                     <label> Size :</label>
-                    <span class="size">@Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, size, new { @class = "form-control" }) </span>
+                    <span class="size">@Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>,  size, new { @class = "form-control" }) </span>
                 </div>
 
                 <div class="editor-label">
@@ -258,7 +258,8 @@
             data: { start: st, end: en, searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), sizeId: $('#sizeId').val() },
             success: function (data) {
                 //GetSlider();
-                $('DIV.productList').empty().append(data)
+                var imageUrl = '@Url.Content("~/Content/Images/loader.gif")';
+                $('DIV.productList').empty().append(data).append('<div id="loadingDiv" style="text-align: center; display: none; margin-bottom: 20px;"><img alt="Loading" src="'+imageUrl+'" /></div>');
                 // $(".modal").hide();
             },
             failure: function (response) {
@@ -310,6 +311,6 @@
         });
     }
 
-
+   
 
 </script>

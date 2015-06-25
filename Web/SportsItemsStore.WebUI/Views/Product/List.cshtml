@@ -98,6 +98,7 @@ img {
 }
 
 </div>
+<hr style ="border-style: double none none"/>
 
 <div class="productList">
 
@@ -105,137 +106,10 @@ img {
 {
     Html.RenderPartial("ProductSummary", p);
 }
-
-<div class="pager">
-    @*@Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory, sizeId=Model.PagingInfo.SizeId}))*@
-   @* @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x , category=Model.CurrentCategory}))*@
-
-   @if ((Model.SearchTerm != null && Model.SearchTerm != "") || sessionSearhTerm != null)
-   {
-        @*if (Model.PagingInfo.SizeId > 0)
-        { 
-        
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, searchTerm = @sessionSearhTerm }))
-        }
-        else if (Model.PagingInfo.ColorId > 0)
-        { 
-        
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, colorId = Model.PagingInfo.ColorId, searchTerm = @sessionSearhTerm }))
-        }
-        else if (Model.PagingInfo.StartPrice > 0 || Model.PagingInfo.EndPrice > 0)
-        {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice, searchTerm = @sessionSearhTerm }))
-        }
-        else
-        {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, searchTerm = @sessionSearhTerm })) 
-        }*@
-       
-       if (Model.PagingInfo.StartPrice > 0 || Model.PagingInfo.EndPrice > 0)
-       {
-           if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId > 0)
-           { 
-        
-               @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, colorId = Model.PagingInfo.ColorId, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice, searchTerm = @sessionSearhTerm }))
-           }
-           else if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId == 0)
-           {         
-               @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice, searchTerm = @sessionSearhTerm }))
-           }
-           else if (Model.PagingInfo.ColorId > 0 && Model.PagingInfo.SizeId == 0)
-           { 
-        
-               @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, colorId = Model.PagingInfo.ColorId, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice, searchTerm = @sessionSearhTerm }))
-           }
-           else
-           {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice, searchTerm = @sessionSearhTerm }))
-           }
-       }
-       else if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId > 0)
-       { 
-        
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("SearchWithFilters", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, colorId = Model.PagingInfo.ColorId, searchTerm = @sessionSearhTerm }))
-       }
-       else if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId == 0)
-       {         
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("SearchWithFilters", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, searchTerm = @sessionSearhTerm }))
-       }
-       else if (Model.PagingInfo.ColorId > 0 && Model.PagingInfo.SizeId == 0)
-       { 
-        
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("SearchWithFilters", new { page = x, category = Model.CurrentCategory, colorId = Model.PagingInfo.ColorId, searchTerm = @sessionSearhTerm }))
-       }
-       else
-       {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, searchTerm = @sessionSearhTerm })) 
-       }
-   }
-   else
-   {
-        @*if (Model.PagingInfo.SizeId > 0)
-        { 
-        
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId }))
-        }
-
-        else if (Model.PagingInfo.ColorId > 0)
-        {
-            @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, colorId = Model.PagingInfo.ColorId }))
-        }
-        else if (Model.PagingInfo.StartPrice > 0 || Model.PagingInfo.EndPrice > 0)
-        {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice }))
-        }
-        else
-        {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
-        }*@
-       if (Model.PagingInfo.StartPrice > 0 || Model.PagingInfo.EndPrice > 0)
-       {
-           if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId > 0)
-           {         
-                @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, colorId = Model.PagingInfo.ColorId, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice }))
-           }
-           else if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId == 0)
-           { 
-        
-                @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice }))
-           }
-           else if (Model.PagingInfo.ColorId > 0 && Model.PagingInfo.SizeId == 0)
-           {
-                @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, colorId = Model.PagingInfo.ColorId, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice }))
-           }
-           else
-           {
-                @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetallByPriceRange", new { page = x, category = Model.CurrentCategory, start = Model.PagingInfo.StartPrice, end = Model.PagingInfo.EndPrice }))
-           }
-       }
-       else if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId > 0)
-       {         
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("SearchWithFilters", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId, colorId = Model.PagingInfo.ColorId }))
-       }
-
-       else if (Model.PagingInfo.SizeId > 0 && Model.PagingInfo.ColorId == 0)
-       { 
-        
-           @Html.PageLinks(Model.PagingInfo, x => Url.Action("SearchWithFilters", new { page = x, category = Model.CurrentCategory, sizeId = Model.PagingInfo.SizeId }))
-       }
-
-       else if (Model.PagingInfo.ColorId > 0 && Model.PagingInfo.SizeId == 0)
-       {
-            @Html.PageLinks(Model.PagingInfo, x => Url.Action("SearchWithFilters", new { page = x, category = Model.CurrentCategory, colorId = Model.PagingInfo.ColorId }))
-       }
-       else
-       {
-             @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
-       }
-   }
-
 </div>
-
+<div id="loadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+    <img alt="Loading" src="@Url.Content("~/Content/Images/loader.gif")" />
 </div>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $(document).on("click", "#SearchSubmit", function () {
@@ -267,6 +141,29 @@ img {
             },
             minLength: 1
         });
+    });
+
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height() && !NoMoreData && !inProgress) {
+
+            inProgress = true;
+            $("#loadingDiv").show();
+
+            $.post("@Url.Action("InfinateScroll", "Product")", { "BlockNumber": BlockNumber },
+                    function (data) {
+                      //  debugger;
+                        BlockNumber = BlockNumber + 1;
+                        NoMoreData = data.NoMoreData;
+                        var htmlPopup = data.HTMLString;
+                        $(".productList").append(htmlPopup);
+                        $("#loadingDiv").hide();
+                        inProgress = false;
+                    });
+        }
     });
 </script>
 

@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ViewBag.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -150,6 +151,8 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\DetailsViewModel.cs" />
+    <Compile Include="Models\ItemLoaderManager.cs" />
+    <Compile Include="Models\JsonModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MyOrderViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
@@ -157,6 +160,8 @@
     <Compile Include="Models\ShippingViewModel.cs" />
     <Compile Include="Models\UserRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\CustomMembershipProvider .cs" />
+    <Compile Include="Util\PredicateBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -176,8 +181,34 @@
     <Content Include="Content\Images\misc\Search2.png" />
     <Content Include="Content\Images\Optimized-logo.png" />
     <Content Include="Content\Images\people.png" />
+    <Content Include="Content\Images\ProductImage\Bling-BlingKing.jpg" />
+    <Content Include="Content\Images\ProductImage\ChessPieces.jpg" />
+    <Content Include="Content\Images\ProductImage\ChessSets.jpg" />
+    <Content Include="Content\Images\ProductImage\CornerFlags.jpg" />
+    <Content Include="Content\Images\ProductImage\HumanChessBoard.jpg" />
+    <Content Include="Content\Images\ProductImage\Kayak.jpg" />
+    <Content Include="Content\Images\ProductImage\Lifeboat.jpg" />
+    <Content Include="Content\Images\ProductImage\Lifejacket.jpg" />
+    <Content Include="Content\Images\ProductImage\soccer.jpg" />
+    <Content Include="Content\Images\ProductImage\SoccerJersy.jpg" />
+    <Content Include="Content\Images\ProductImage\Stadium.jpg" />
+    <Content Include="Content\Images\ProductImage\ThinkingCap.jpg" />
+    <Content Include="Content\Images\ProductImage\UnsteadyChair.jpg" />
     <Content Include="Content\Images\report.png" />
     <Content Include="Content\Images\spinner.gif" />
+    <Content Include="Content\Images\Tumbnail\Bling-BlingKing.jpg" />
+    <Content Include="Content\Images\Tumbnail\ChessPieces.png" />
+    <Content Include="Content\Images\Tumbnail\ChessSets.png" />
+    <Content Include="Content\Images\Tumbnail\CornerFlags.jpg" />
+    <Content Include="Content\Images\Tumbnail\HumanChessBoard.jpg" />
+    <Content Include="Content\Images\Tumbnail\Kayak.jpg" />
+    <Content Include="Content\Images\Tumbnail\Lifeboat.jpg" />
+    <Content Include="Content\Images\Tumbnail\Lifejacket.jpg" />
+    <Content Include="Content\Images\Tumbnail\soccer.jpg" />
+    <Content Include="Content\Images\Tumbnail\SoccerJersy.jpg" />
+    <Content Include="Content\Images\Tumbnail\Stadium.jpg" />
+    <Content Include="Content\Images\Tumbnail\ThinkingCap.jpg" />
+    <Content Include="Content\Images\Tumbnail\UnsteadyChair.jpg" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -284,6 +315,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Cart\MyOrderDetails.cshtml" />
+    <Content Include="Views\Product\ProductPopList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -307,7 +339,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>56398</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:63376/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -19,27 +19,55 @@
             @Html.Hidden("returnUrl", @Model.ReturnUrl)
       
            <div class="form-group" style ="float:left">
-                @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, "Select Size", new { @class = "form-control dropdownsize" ,@style="float:left; margin-right: 14px;"})
-                @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, "Select Color", new { @class = "form-control dropdownsize",@style="float:left; margin-right: 14px;" })   
-               @Html.DropDownList("mnfcId", ViewData["Manufacterers"] as IEnumerable<SelectListItem>, "Select Manufacterer", new { @class = "form-control dropdownsize",@style="float:left; margin-right: 14px;" })  
+                @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, "Select Size",
+                new { @class = "form-control dropdownsize required" })
+                @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, "Select Color", new { @class = "form-control dropdownsize required"})   
+               @Html.DropDownList("mnfcId", ViewData["Manufacterers"] as IEnumerable<SelectListItem>, "Select Manufacterer", new { @class = "form-control dropdownsize required"})  
            </div>
              <input type="submit" value="+ Add To Cart" class="btn btn-info" />
-}
+           
+        }
     
        </div>
-     </div>
 
+      
+     </div>
     </div>
+    <img src="@Url.Content("~/Content/images/ProductImage/")@Model.product.ProductImageUrl" title="@Model.product.Name"   />
+     <div id="messages" style="display:none"></div>
+    
 </div>
 <style>
     .dropdownsize{
         width: 30%;
+        float:left; 
+        margin-right: 14px;
+        
     }
+    .input-validation-error {
+    background-color: #fee;
+    border: 1px solid #f00;
+}
+    
 </style>
 
+<script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-         $("DIV.searchFilters").hide();
+        $("DIV.searchFilters").hide();
+        $("form").validate({
+            messages: {
+                sizeId: {
+                    required: "Please select an option from the Size",
+                },
+                colorId: {
+                    required: "Please select an option from the Color",
+                },
+                mnfcId: {
+                    required: "Please select an option from the Manufacterer",
+                },
+            }
+        });
     });
 </script>
 

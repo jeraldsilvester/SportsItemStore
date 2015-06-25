@@ -14,7 +14,8 @@ namespace SportsItemsStore.Domain.Abstract
 
         IQueryable<Size> Sizes { get; }
         IQueryable<ProductSize> ProductSizes { get; }
-
+        IQueryable<Category> Categories { get; }
+        
         IQueryable<Color> Colors { get; }
         IQueryable<ProductColor> ProductColors { get; }
 

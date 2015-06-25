@@ -111,8 +111,15 @@ namespace SportsItemsStore.WebUI.Controllers
         [HttpPost]
         public PartialViewResult MyOrderDetails(int orderId)
         {
-            var  orderDetails = repository.OrderDetails.Where(o => o.Order.OrderId == orderId).ToList();
-            return PartialView(orderDetails);
+            try
+            {
+                var orderDetails = repository.OrderDetails.Where(o => o.Order.OrderId == orderId).ToList();
+                return PartialView("MyOrderDetails", orderDetails);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         [ChildActionOnly]
