@@ -14,8 +14,9 @@
 @{
     string size = null;
     string color = null;
+    string manufacturer = null;
     string sessionSearhTerm = null;
-    if (Session["size"] != null)
+     if (Session["size"] != null)
     {
         size = (String)Session["Size"];
         Session["Size"] = null;
@@ -26,6 +27,12 @@
         color = (String)Session["Color"];
         Session["Color"] = null;
     }
+
+    if (Session["Manufacturer"] != null)
+    {
+        manufacturer = (string)Session["Manufacturer"];
+        Session["Manufacturer"] = null;
+    } 
 
     if (Session["SearchTerm"] != null)
     {
@@ -59,10 +66,15 @@
                 @*<p>
                 <input type="submit" value="Search" class="actionButtons" />
             </p>*@
+                <div class="editor-label">
+                    <label>Manufacturer :</label>
+                   <span class="color"> @Html.DropDownList("manufacturerId", ViewData["Manufacturers"] as IEnumerable<SelectListItem>, manufacturer, new { @class = "form-control" })  </span>
+                </div>
                 <p>
                     <label for="amount">Price Range:</label>
                     <input type="text" id="amount" style="border: 0px; color: #f6931f; font-weight: bold; width: 120px; background-color: beige;" value="$0 - $20000">
                 </p>
+                 
                 <div id="price_slider" class="editor-label Test">
                 </div>
             </fieldset>
@@ -83,6 +95,7 @@
 
         var sizeId = '@Request.RequestContext.HttpContext.Session["SizeId"]';
         var colorId = '@Request.RequestContext.HttpContext.Session["ColorId"]';
+        var manufacturerId = '@Request.RequestContext.HttpContext.Session["manufacturerId"]';
 
         if (sizeId > '0') {
             $("#sizeId").val(sizeId);
@@ -90,7 +103,9 @@
         if (colorId > '0') {
             $("#colorId").val(colorId);
         }
-
+        if (manufacturerId > 0) {
+            $("#manufacturerId").val(manufacturerId);
+        }
         var start = '@Request.RequestContext.HttpContext.Session["Start"]';
         var end = '@Request.RequestContext.HttpContext.Session["End"]';
 
@@ -112,7 +127,7 @@
             $('#categories a').removeClass('selected');
             listItem = $("#sizeId").val();
             //alert(listItem);
-            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0) {
+            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0 && $("#manufacturerId").val() == 0) {
                 GetAllView();
             }
             else {
@@ -138,12 +153,37 @@
 
             $('#categories a').removeClass('selected');
             listItem = $("#colorId").val();
-            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0) {
+            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0 && $("#manufacturerId").val() == 0) {
                 GetAllView();
 
             }
             else {
                 GetViewForAColor();
+            }
+        });
+
+        $('#manufacturerId').change(function () {
+
+            // GetSlider(min, max);
+
+            //$('#amount').val('');
+            //$('#categories a').removeClass('selected');
+            //listItem = $("#colorId").val();
+            //if (listItem != 0) {
+            //    GetViewForAColor();
+            //}
+            //else {
+            //    GetAllView();
+            //}
+
+            $('#categories a').removeClass('selected');
+            listItem = $("#colorId").val();
+            if ($('#amount').val() == "" && $("#sizeId").val() == "0" && $("#colorId").val() == 0 && $("#manufacturerId").val() == 0) {
+                GetAllView();
+
+            }
+            else {
+                GetViewForAManufacturer();
             }
         });
 
@@ -160,7 +200,7 @@
         }
         $.ajax({
             url: '@Url.Action("SearchWithFilters", "Product")',
-            data: { sizeId: $('#sizeId').val(), searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), start: st, end: en },
+            data: { sizeId: $('#sizeId').val(), searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), start: st, end: en ,manufacturerId: $('#manufacturerId').val()},
             type: "GET",
             success: function (data) {
                 $('DIV.productList').empty().append(data)
@@ -183,7 +223,31 @@
 
         $.ajax({
             url: '@Url.Action("SearchWithFilters", "Product")',
-            data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm', sizeId: $('#sizeId').val(), start: st, end: en },
+            data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm', sizeId: $('#sizeId').val(), start: st, end: en, manufacturerId: $('#manufacturerId').val() },
+            type: "GET",
+            success: function (data) {
+                $('DIV.productList').empty().append(data)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
+    }
+
+
+    function GetViewForAManufacturer() {
+        //alert('SizeId: ' + $('#sizeId').val());
+        var st = 0, en = 0;
+        if ($('#amount').val() != "") {
+            var values = $('#price_slider').slider("option", "values");
+            st = values[0];
+            en = values[1];
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("SearchWithFilters", "Product")',
+            data: { colorId: $('#colorId').val(), searchTerm: '@sessionSearhTerm', sizeId: $('#sizeId').val(), start: st, end: en, manufacturerId: $('#manufacturerId').val() },
             type: "GET",
             success: function (data) {
                 $('DIV.productList').empty().append(data)
@@ -255,7 +319,7 @@
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetallByPriceRange", "Product")',
-            data: { start: st, end: en, searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), sizeId: $('#sizeId').val() },
+            data: { start: st, end: en, searchTerm: '@sessionSearhTerm', colorId: $('#colorId').val(), sizeId: $('#sizeId').val(), manufacturerId: $('#manufacturerId').val() },
             success: function (data) {
                 //GetSlider();
                 var imageUrl = '@Url.Content("~/Content/Images/loader.gif")';

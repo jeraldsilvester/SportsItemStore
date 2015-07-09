@@ -1,43 +1,83 @@
 ﻿@model SportsItemsStore.WebUI.Models.DetailsViewModel
+@{
+    TempData["ManfacturerId"] = TempData["ManfacturerId"];
+}
+  @*<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">*@
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/style-zoom.css")">
+<div style="width:100%;height:100%">
+     <div style="width:50%;">
 
-
-<div style="height:auto;width:100%">
-    <div class="container-fluid">
-        <div class ="row-fluid">
-        <div class="span2" style="width:30%;float:left">
-        <h3>@Model.product.Name</h3>
-
-        @Model.product.Description
-
-        @*<h4>@Model.product.Price.ToString("c")</h4>*@
-
-       </div>
-        <div class="span10" style="width:70%;float:left;">
-        @using (Html.BeginForm("AddToCart", "Cart", new { @class ="form-inline", @role="form" }))
-        {
-            @Html.Hidden("productId", @Model.product.ProductID)
-            @Html.Hidden("returnUrl", @Model.ReturnUrl)
-      
-           <div class="form-group" style ="float:left">
-                @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>, "Select Size",
-                new { @class = "form-control dropdownsize required" })
-                @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, "Select Color", new { @class = "form-control dropdownsize required"})   
-               @Html.DropDownList("mnfcId", ViewData["Manufacterers"] as IEnumerable<SelectListItem>, "Select Manufacterer", new { @class = "form-control dropdownsize required"})  
-           </div>
-             <input type="submit" value="+ Add To Cart" class="btn btn-info" />
-           
-        }
-    
-       </div>
-
-      
-     </div>
+        
+@*<h1 style="margin:150px auto 30px auto;">jQuery BZoom Plugin Example</h1>*@
+	    <div class="bzoom_wrap">
+            <ul id="bzoom"  style="background:#EEEEEE" >
+                <li>
+                    <img class="bzoom_thumb_image" src="@Url.Content("~/Content/images/ProductImage/")@Model.product.ProductImageUrl" title="first img" />
+                    <img class="bzoom_big_image" src="@Url.Content("~/Content/images/ProductImage/")@Model.product.ProductImageUrl"  />
+                </li>
+                <li>
+                    <img class="bzoom_thumb_image" src="@Url.Content("~/Content/images/ProductImage-2/")@Model.product.ProductImageUrl"/>
+                    <img class="bzoom_big_image" src="@Url.Content("~/Content/images/ProductImage-2/")@Model.product.ProductImageUrl"  />
+                </li>
+                <li>
+                    <img class="bzoom_thumb_image" src="@Url.Content("~/Content/images/ProductImage-3/")@Model.product.ProductImageUrl"/>
+                    <img class="bzoom_big_image" src="@Url.Content("~/Content/images/ProductImage-3/")@Model.product.ProductImageUrl"  />
+                </li>
+                
+            </ul>
+        </div>
     </div>
-    <img src="@Url.Content("~/Content/images/ProductImage/")@Model.product.ProductImageUrl" title="@Model.product.Name"   />
-     <div id="messages" style="display:none"></div>
+  <div  style="width:30%;float:right;">
+        <div class ="row-fluid">
+                <div class="span2" style="width:100%;">
+                <h3 style="text-align:center;font:bold;font-style:italic">@Model.product.Name</h3>
+
+                @Model.product.Description
+
+     
+               </div>
+                <div class="span2  form-margin-top" >
+                    <div class="bs-zero-warning" style="display:none">
+                        <div class="alert alert-warning">
+                            <a href="#" class="close" data-dismiss="alert"></a>
+                            <strong>Warning!</strong> Qty should be greater than zero '0' .
+                        </div>
+                    </div>
+              @using (Html.BeginForm("AddToCart", "Cart", new { @class = "form-inline", @role = "form" }))
+                {
+                    @Html.Hidden("productId", @Model.product.ProductID)
+                    @Html.Hidden("returnUrl", @Model.ReturnUrl)
+      
+                     @*<div class="form-group" style ="float:left">*@
+                       <div class="form-group" >
+                           <label >Qty : </label>                         
+                      <input type="button" value="+" class="btn btn-info" id="btnAdd" />   @Html.TextBox("qty","0") <input type="button" value="-" class="btn btn-info" id="btnSub" >
+                       </div>
+                      <div class="form-group" >
+                        @Html.DropDownList("sizeId", ViewData["Sizes"] as IEnumerable<SelectListItem>,new { @class = "form-control " })
+                       </div>
+                   <div class="form-group" >
+                        @Html.DropDownList("colorId", ViewData["Colors"] as IEnumerable<SelectListItem>, new { @class = "form-control "})  
+                   </div> 
+                   <div class="form-group">
+                        @Html.DropDownListFor(x=>x.ManfacturerId, ViewData["Manufacterers"] as IEnumerable<SelectListItem>,new { @class = "form-control"})
+                   </div>
+                       <input type="submit" value="+ Add To Cart" class="btn btn-info" />
+                    @* </div>*@
+                     
+           
+                }
     
+               </div>
+       </div>
+
+  
 </div>
 <style>
+    body {
+       background:#EEEEEE;
+    }
+   
     .dropdownsize{
         width: 30%;
         float:left; 
@@ -48,26 +88,65 @@
     background-color: #fee;
     border: 1px solid #f00;
 }
-    
+    .form-margin-top {
+        margin-top:30px;
+    }
+    #btnAdd,#qty,#btnSub {
+        height: 40px;
+        width: 40px;
+        text-align:center;
+    }
+
 </style>
 
-<script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jqzoom.js")"></script>
 <script type="text/javascript">
+    $("#bzoom").zoom({
+        zoom_area_width: 300,
+        autoplay_interval: 3000,
+        small_thumbs: 3,
+        autoplay: false
+    });
+
     $(document).ready(function () {
         $("DIV.searchFilters").hide();
-        $("form").validate({
-            messages: {
-                sizeId: {
-                    required: "Please select an option from the Size",
-                },
-                colorId: {
-                    required: "Please select an option from the Color",
-                },
-                mnfcId: {
-                    required: "Please select an option from the Manufacterer",
-                },
+        var qty = 0;
+       $('#btnAdd').on('click', function () {
+           qty = ($('#qty').val() == "" || $('#qty').val().trim() == "0" || isNaN($('#qty').val().trim())? 0 : $('#qty').val().trim());
+            qty = Number(qty) + 1;
+            $('#qty').val(qty);
+        });
+        $('#btnSub').on('click', function () {
+            qty = ($('#qty').val() == "" || $('#qty').val().trim() == "0" || isNaN($('#qty').val().trim()) ? 0 : $('#qty').val().trim());
+            if (qty > 0) {
+                qty = Number(qty) - 1;
+                $('#qty').val(qty);
+            }
+        });
+        $('form').submit(function () {
+            qty = ($('#qty').val() == "" || $('#qty').val().trim() == "0" || isNaN($('#qty').val().trim()) ? 0 : $('#qty').val().trim());
+            if ($('#qty').val() > 0) {
+                $('.bs-zero-warning').hide();
+            }
+            else {
+                $('.bs-zero-warning').show();
+                return false;
             }
         });
     });
 </script>
+<script type="text/javascript">
 
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+   
+      
+</script>

@@ -165,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\Images\add.jpg" />
     <Content Include="Content\Images\angularShield.png" />
     <Content Include="Content\Images\appFolders.png" />
     <Content Include="Content\Images\ColorPalette.png" />
@@ -181,6 +182,8 @@
     <Content Include="Content\Images\misc\Search2.png" />
     <Content Include="Content\Images\Optimized-logo.png" />
     <Content Include="Content\Images\people.png" />
+    <Content Include="Content\Images\ProductImage-2\Kayak.jpg" />
+    <Content Include="Content\Images\ProductImage-3\Kayak.jpg" />
     <Content Include="Content\Images\ProductImage\Bling-BlingKing.jpg" />
     <Content Include="Content\Images\ProductImage\ChessPieces.jpg" />
     <Content Include="Content\Images\ProductImage\ChessSets.jpg" />
@@ -196,6 +199,7 @@
     <Content Include="Content\Images\ProductImage\UnsteadyChair.jpg" />
     <Content Include="Content\Images\report.png" />
     <Content Include="Content\Images\spinner.gif" />
+    <Content Include="Content\Images\subtract.jpg" />
     <Content Include="Content\Images\Tumbnail\Bling-BlingKing.jpg" />
     <Content Include="Content\Images\Tumbnail\ChessPieces.png" />
     <Content Include="Content\Images\Tumbnail\ChessSets.png" />
@@ -209,6 +213,7 @@
     <Content Include="Content\Images\Tumbnail\Stadium.jpg" />
     <Content Include="Content\Images\Tumbnail\ThinkingCap.jpg" />
     <Content Include="Content\Images\Tumbnail\UnsteadyChair.jpg" />
+    <Content Include="Content\style-zoom.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -272,6 +277,12 @@
     <Content Include="Scripts\bootstrapPager.min.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js.map">
+      <DependentUpon>jquery-1.8.2.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery-ui-1.8.24.min.js.map">
+      <DependentUpon>jquery-ui-1.8.24.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
@@ -281,6 +292,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jqzoom.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SportsItemsStore.Domain.Abstract;
+﻿using SportsItemsStore.Domain.Abstract;
 using SportsItemsStore.Domain.Entities;
-using System.Data.Entity;
+using System;
+using System.Linq;
 
 namespace SportsItemsStore.Domain.Concrete
 {
@@ -42,8 +38,6 @@ namespace SportsItemsStore.Domain.Concrete
         {
             get { return context.ProductColors; }
         }
-
-
 
         public IQueryable<Manufacturer> Manufacturers
         {
@@ -115,7 +109,6 @@ namespace SportsItemsStore.Domain.Concrete
                     dbEntry.Zip = addrs.Zip;
                     dbEntry.Country = addrs.Country;
                     dbEntry.UserId = addrs.UserId;
-
                 }
 
                 adressId = addrs.AddressID;
@@ -125,7 +118,6 @@ namespace SportsItemsStore.Domain.Concrete
 
         public void SaveOrder(Order order)
         {
-
             using (var context = new EFDbContext())
             {
                 var _order = new Order
@@ -150,10 +142,8 @@ namespace SportsItemsStore.Domain.Concrete
                     };
                     context.OrderDetails.Add(_orderDetail);
                 }
-               context.SaveChanges();
+                context.SaveChanges();
             }
-
         }
     }
 }
-

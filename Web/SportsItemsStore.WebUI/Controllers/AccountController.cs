@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using SportsItemsStore.Domain.Abstract;
+﻿using SportsItemsStore.Domain.Abstract;
 using SportsItemsStore.Domain.Entities;
 using SportsItemsStore.WebUI.Models;
+using System.Linq;
+using System.Web.Mvc;
 using System.Web.Security;
 
 namespace SportsItemsStore.WebUI.Controllers
@@ -21,8 +18,6 @@ namespace SportsItemsStore.WebUI.Controllers
 
         public ActionResult Index()
         {
-            
-
             return View();
         }
 
@@ -38,7 +33,7 @@ namespace SportsItemsStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel model,string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -46,19 +41,18 @@ namespace SportsItemsStore.WebUI.Controllers
 
                 if (user == null || user.Password != model.Password)
                 {
-                    ModelState.AddModelError("","The Username or password id correct");
+                    ModelState.AddModelError("", "The Username or password id correct");
                     return View(model);
                 }
                 else
                 {
-                 
                     FormsAuthentication.SetAuthCookie(model.Username, false);
 
                     Session["User"] = user;
 
                     //return Redirect(returnUrl ?? @Html.ActionLink("Checkout", "Index", "Cart"));
 
-                    if (returnUrl != "" && returnUrl !=null && returnUrl !="/Product/ViewDetails")
+                    if (returnUrl != "" && returnUrl != null && returnUrl != "/Product/ViewDetails")
                     {
                         return Redirect(returnUrl);
                     }
@@ -75,7 +69,7 @@ namespace SportsItemsStore.WebUI.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-   
+
             this.Session["User"] = null;
             return RedirectToAction("List", "Product");
         }
@@ -88,14 +82,13 @@ namespace SportsItemsStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public ViewResult Register(UserRegistrationModel model,string returnUrl)
+        public ViewResult Register(UserRegistrationModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 User existUser = repository.Users.FirstOrDefault(item => item.Username.ToLower() == model.Username.ToLower());
                 if (existUser == null)
                 {
-
                     User user = new User();
                     user.Username = model.Username;
                     user.Password = model.Password;
@@ -104,7 +97,6 @@ namespace SportsItemsStore.WebUI.Controllers
                     repository.SaveUser(user);
 
                     //int UserId = user.ID;
-                    
 
                     ViewBag.returnUrl = returnUrl;
                     return View("RegistrationCompleted");

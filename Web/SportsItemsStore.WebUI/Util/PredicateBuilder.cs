@@ -1,24 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 
 namespace SportsItemsStore.WebUI.Util
 {
     public static class PredicateBuilder
     {
-        public static Expression<Func<T, bool>> True<T>() { return f => true; }
-        public static Expression<Func<T, bool>> False<T>() { return f => false; }
-        public static Expression<Func<T, bool>> True<T>(IQueryable<T> query)
+        public static Expression<Func<T, bool>> True<T>()
         {
             return f => true;
         }
-        public static Expression<Func<T, bool>> False<T>(IQueryable<T> query)
+
+        public static Expression<Func<T, bool>> False<T>()
         {
             return f => false;
         }
 
+        public static Expression<Func<T, bool>> True<T>(IQueryable<T> query)
+        {
+            return f => true;
+        }
+
+        public static Expression<Func<T, bool>> False<T>(IQueryable<T> query)
+        {
+            return f => false;
+        }
 
         public static Expression<Func<T, bool>> Or<T>(
                                   this Expression<Func<T, bool>> expr1,
@@ -38,6 +44,5 @@ namespace SportsItemsStore.WebUI.Util
             return Expression.Lambda<Func<T, bool>>
             (Expression.AndAlso(expr1.Body, invokedExpr), expr1.Parameters);
         }
-
     }
 }

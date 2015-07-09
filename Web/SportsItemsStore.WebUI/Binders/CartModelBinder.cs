@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using SportsItemsStore.Domain.Entities;
 using System.Web.Mvc;
-using SportsItemsStore.Domain.Entities;
 
 namespace SportsItemsStore.WebUI.Binders
 {

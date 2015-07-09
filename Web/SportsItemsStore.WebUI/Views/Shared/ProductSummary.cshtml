@@ -1,4 +1,10 @@
 ﻿@model SportsItemsStore.Domain.Entities.Product
+@{
+    if (ViewBag.Manfacturerid != null)
+    {
+        TempData["ManfacturerId"] = TempData["ManfacturerId"];
+    }
+}
 
 <div class="item itemContainer" >
  
@@ -10,11 +16,19 @@
         <div style="margin-top: -76px; margin-left: 93px;" >
    
             <div class="itemDesc"> @Model.Description</div>
-                @using (Html.BeginForm("ViewDetails", "Product"))
+               @using (Html.BeginForm("ViewDetails", "Product"))
                 {
                     @Html.HiddenFor(x => x.ProductID)
+                     @*if ( TempData["Manfacturerid"]!= null)
+                    {
+                        <input type="hidden" value="@TempData["Manfacturerid"].ToString()" id  ="manfacturerId" />
+                    }
+                    else
+                    {
+                        <input type="hidden" value="@ViewBag.Manfacturerid" id  ="manfacturerId" />
+                    } *@
                     @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                    <input type="submit" value="View Details" class="btn btn-info itemBtn" />
+                   <input type="submit" value="View Details" class="btn btn-info itemBtn" />
                 }
                 <div class="itemPrice">@Model.Price.ToString("c")</div>
            </div>

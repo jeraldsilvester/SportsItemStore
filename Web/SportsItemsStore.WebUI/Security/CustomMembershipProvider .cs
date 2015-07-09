@@ -1,15 +1,12 @@
 ﻿using SportsItemsStore.Domain.Concrete;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Security;
 
 namespace SportsItemsStore.WebUI.Security
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-
         #region Overrides of MembershipProvider
 
         /// <summary>
@@ -29,14 +26,14 @@ namespace SportsItemsStore.WebUI.Security
                 var user = (from u in context.Users
                             where String.Compare(u.Username, username, StringComparison.OrdinalIgnoreCase) == 0
                                   && String.Compare(u.Password, password, StringComparison.OrdinalIgnoreCase) == 0
-                                 // && !u.Deleted
+                            // && !u.Deleted
                             select u).FirstOrDefault();
 
                 return user != null;
             }
         }
 
-        #endregion
+        #endregion Overrides of MembershipProvider
 
         #region Overrides of MembershipProvider that throw NotImplementedException
 
@@ -171,6 +168,6 @@ namespace SportsItemsStore.WebUI.Security
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion Overrides of MembershipProvider that throw NotImplementedException
     }
 }
