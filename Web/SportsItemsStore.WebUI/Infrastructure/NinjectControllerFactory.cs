@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Ninject;
+using SportsItemsStore.Domain.Abstract;
+using SportsItemsStore.Domain.Concrete;
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Ninject;
-using SportsItemsStore.Domain.Abstract;
-using SportsItemsStore.Domain.Entities;
-using SportsItemsStore.Domain.Concrete;
 
 namespace SportsItemsStore.WebUI.Infrastructure
 {
-    public class NinjectControllerFactory :DefaultControllerFactory
+    public class NinjectControllerFactory : DefaultControllerFactory
     {
         private IKernel ninjectKernel;
+
         public NinjectControllerFactory()
         {
             ninjectKernel = new StandardKernel();

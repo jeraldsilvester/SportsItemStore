@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SportsItemsStore.WebUI.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage="User Name is required")]
+        [Required(ErrorMessage = "User Name is required")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage="Password is required")]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -19,6 +15,5 @@ namespace SportsItemsStore.WebUI.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
-
     }
 }

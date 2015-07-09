@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using SportsItemsStore.Domain.Abstract;
+﻿using SportsItemsStore.Domain.Abstract;
 using SportsItemsStore.Domain.Entities;
 using SportsItemsStore.WebUI.Models;
-using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace SportsItemsStore.WebUI.Controllers
 {
@@ -39,21 +37,21 @@ namespace SportsItemsStore.WebUI.Controllers
         //    return cart;
         //}
 
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl, string sizeId, string colorId, string mnfcId)
+        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl, string sizeId, string colorId, int ManfacturerID, int qty)
         {
             Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
 
             int szId = Convert.ToInt32(sizeId == "" ? "0" : sizeId);
-            int clrId =Convert.ToInt32( colorId == "" ? "0" : colorId);
-            int mnId = Convert.ToInt32(mnfcId == "" ? "0" : mnfcId);
+            int clrId = Convert.ToInt32(colorId == "" ? "0" : colorId);
+            int mnId = ManfacturerID;
 
-            string size = repository.Sizes.Where(x => x.SizeID == szId).Select(y=>y.ShortName).SingleOrDefault();
-            string color = repository.Colors.Where(x => x.ColorID == clrId).Select(y=>y.Name).SingleOrDefault();
+            string size = repository.Sizes.Where(x => x.SizeID == szId).Select(y => y.ShortName).SingleOrDefault();
+            string color = repository.Colors.Where(x => x.ColorID == clrId).Select(y => y.Name).SingleOrDefault();
             string mnfc = repository.Manufacturers.Where(x => x.ManufacturerID == mnId).Select(y => y.Name).SingleOrDefault();
 
             if (product != null)
             {
-                cart.AddItem(product, 1, size,color,mnfc,szId,clrId,mnId,"",DateTime.Now);
+                cart.AddItem(product, qty, size, color, mnfc, szId, clrId, mnId, "", DateTime.Now);
             }
 
             //returnUrl = returnUrl.Contains("GetallByPriceRange") ? "/Product/List" : returnUrl;
@@ -62,9 +60,7 @@ namespace SportsItemsStore.WebUI.Controllers
 
             //returnUrl = returnUrl.Contains("GetallByPriceRange") ? returnUrl.Replace("GetallByPriceRange", "List") : returnUrl;
 
-           //returnUrl = returnUrl.Contains("SearchWithFilters") ? returnUrl.Replace("SearchWithFilters","List") : returnUrl;
-
-            
+            //returnUrl = returnUrl.Contains("SearchWithFilters") ? returnUrl.Replace("SearchWithFilters","List") : returnUrl;
 
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -72,10 +68,10 @@ namespace SportsItemsStore.WebUI.Controllers
         public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl, int sizeId, int colorId, int mnfcId)
         {
             Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
-            
+
             if (product != null)
             {
-                cart.RemoveLine(product,sizeId,colorId,mnfcId);
+                cart.RemoveLine(product, sizeId, colorId, mnfcId);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -83,8 +79,8 @@ namespace SportsItemsStore.WebUI.Controllers
         [ChildActionOnly]
         public PartialViewResult Summary(Cart cart)
         {
-            int userId=0;
-            
+            int userId = 0;
+
             if (Session["User"] != null)
             {
                 User user = (User)Session["User"];
@@ -98,13 +94,13 @@ namespace SportsItemsStore.WebUI.Controllers
                     ViewBag.UserId = userId;
                 }
             }
-        
+
             return PartialView(cart);
         }
 
         public ViewResult MyOrder(string returnUrl, int userId)
         {
-            IList<Order> orders = repository.Orders.Where(o => o.UserId == userId).OrderByDescending(x=>x.OrderId).Take(20).ToList();
+            IList<Order> orders = repository.Orders.Where(o => o.UserId == userId).OrderByDescending(x => x.OrderId).Take(20).ToList();
             return View(orders);
         }
 
@@ -146,30 +142,28 @@ namespace SportsItemsStore.WebUI.Controllers
             }
             if (ModelState.IsValid)
             {
-                Address addrs = new Address {
-                     Name =shippingDetails.Name,
-                     Line1=shippingDetails.Line1,
-                     Line2=shippingDetails.Line2,
-                     Line3=shippingDetails.Line3,
-                     City=shippingDetails.City,
-                     State=shippingDetails.State,
-                     Zip=shippingDetails.Zip,
-                     Country=shippingDetails.Country,
-                     UserId=shippingDetails.UserId
+                Address addrs = new Address
+                {
+                    Name = shippingDetails.Name,
+                    Line1 = shippingDetails.Line1,
+                    Line2 = shippingDetails.Line2,
+                    Line3 = shippingDetails.Line3,
+                    City = shippingDetails.City,
+                    State = shippingDetails.State,
+                    Zip = shippingDetails.Zip,
+                    Country = shippingDetails.Country,
+                    UserId = shippingDetails.UserId
                 };
 
                 repository.SaveAddress(addrs);
 
-               
-
                 if (addrs.AddressID > 0)
                 {
-                    
                     Order order = new Order
                     {
                         AddressId = addrs.AddressID,
                         UserId = shippingDetails.UserId,
-                        OrderDate=DateTime.Now
+                        OrderDate = DateTime.Now
                     };
                     List<OrderDetail> orderDetails = new List<OrderDetail>();
                     foreach (CartLine line in cart.Lines)
@@ -177,11 +171,11 @@ namespace SportsItemsStore.WebUI.Controllers
                         OrderDetail orderDetail = new OrderDetail
                         {
                             ProductId = line.Product.ProductID,
-                            Quantity=line.Quantity,
+                            Quantity = line.Quantity,
                             SizeId = line.SizeId,
                             ColorId = line.ColorId,
                             ManufacturerId = line.ManufactererId,
-                            SubTotal=(line.Product.Price * line.Quantity)
+                            SubTotal = (line.Product.Price * line.Quantity)
                         };
                         order.OrderTotal += orderDetail.SubTotal;
 
@@ -190,13 +184,13 @@ namespace SportsItemsStore.WebUI.Controllers
 
                     order.OrderDetails = orderDetails;
 
-                   repository.SaveOrder(order);
+                    repository.SaveOrder(order);
                 }
 
                 return View("Completed", new ShippingViewModel
                 {
-                    crt=cart,
-                    shipDtls=shippingDetails
+                    crt = cart,
+                    shipDtls = shippingDetails
                 });
             }
             else

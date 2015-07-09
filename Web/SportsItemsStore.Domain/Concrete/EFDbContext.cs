@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SportsItemsStore.Domain.Entities;
+﻿using SportsItemsStore.Domain.Entities;
 using System.Data.Entity;
 
 namespace SportsItemsStore.Domain.Concrete
@@ -13,12 +8,15 @@ namespace SportsItemsStore.Domain.Concrete
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Size> Sizes { get; set; }
+
         public DbSet<ProductSize> ProductSizes { get; set; }
 
-        public DbSet<Color> Colors{ get; set; }
+        public DbSet<Color> Colors { get; set; }
+
         public DbSet<ProductColor> ProductColors { get; set; }
 
         public DbSet<Manufacturer> Manufacturers { get; set; }
+
         public DbSet<ProductManufacturer> ProductManufacturers { get; set; }
 
         public DbSet<User> Users { get; set; }
@@ -26,13 +24,15 @@ namespace SportsItemsStore.Domain.Concrete
         public DbSet<Address> Addresses { get; set; }
 
         public DbSet<Category> Categories { get; set; }
-        
+
         public DbSet<Order> Orders { get; set; }
+
         public DbSet<OrderDetail> OrderDetails { get; set; }
+
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    base.OnModelCreating(modelBuilder);
-           
+
         //    modelBuilder.Entity<Order>()
         //        .HasKey(c => new { c.OrderId});
 
@@ -77,6 +77,5 @@ namespace SportsItemsStore.Domain.Concrete
         //    //            .HasForeignKey(s => s.OrderId);
 
         //}
-
     }
 }

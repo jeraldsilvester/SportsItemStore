@@ -9,7 +9,6 @@ header, footer, nav, section {
     display: block;
 }
 
-
 /* Styles for basic forms
 -----------------------------------------------------------*/
 fieldset {
@@ -35,7 +34,6 @@ textarea {
     margin: 0.5em 0 0 0;
 }
 
-
 /* Styles for validation helpers
 -----------------------------------------------------------*/
 .field-validation-error {
@@ -59,7 +57,6 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
-
 
 /*New additions*/
 BODY {
@@ -98,7 +95,6 @@ DIV#categories {
 
 DIV.searchPnl {
     margin-bottom: .7em;
-
 }
 
 DIV.item {
@@ -144,7 +140,6 @@ DIV.pager A {
         background-color: #353535;
         color: White;
     }
-
 
 /*Categories CSS*/
 
@@ -195,7 +190,6 @@ DIV.item INPUT {
 H2 {
     margin-top: 0.3em;
 }
-
 
 TFOOT TD {
     border-top: 1px dotted gray;
@@ -264,7 +258,6 @@ DIV.chkOutNm INPUT {
     margin-left: 1em;
 }
 
-
 DIV.chkOutLn1 INPUT, DIV.chkOutLn2 INPUT, DIV.chkOutLn3 INPUT {
     margin-left: 0.81em;
 }
@@ -285,10 +278,7 @@ DIV.completed p {
     left:0px;
 }*/
 
-
 /*For Detail Page*/
-
-
 
 DIV.itemDetail {
     /*width: 70%;*/
